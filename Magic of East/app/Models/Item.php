@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ItemColor;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,7 +18,12 @@ class Item extends Model
     protected $fillable = [
         'name',
         'description',
+        'color',
         'group_id',
+    ];
+
+    protected $casts = [
+        'color' => ItemColor::class,
     ];
 
     public function group(): BelongsTo
@@ -32,6 +38,11 @@ class Item extends Model
     public function invoice(): BelongsToMany
     {
         return $this->belongsToMany(Invoice::class);
+    }
+
+    public function invoiceItems(): HasMany
+    {
+        return $this->hasMany(InvoiceItem::class);
     }
 
     public function favorite(): MorphMany

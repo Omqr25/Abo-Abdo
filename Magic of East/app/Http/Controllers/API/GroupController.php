@@ -3,49 +3,99 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Group;
-use App\Http\Requests\StoreGroupRequest;
-use App\Http\Requests\UpdateGroupRequest;
+use App\Http\Interfaces\GroupRepositoryInterface;
+use App\Http\Requests\Group\StoreGroupRequest;
+use App\Http\Requests\Group\UpdateGroupRequest;
+use App\Http\Resources\GroupResource;
+use App\Http\Responses\ApiResponse;
+use App\Models\Classification;
+use Illuminate\Http\Request;
+use Throwable;
 
 class GroupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private $groupRepository;
+
+    public function __construct(GroupRepositoryInterface $groupRepository)
+    {
+        $this->groupRepository = $groupRepository;
+    }
+
     public function index()
     {
-        //
+        try {
+            $data = $this->groupRepository->index();
+            return ApiResponse::SuccessMany($data, null, 'Groups indexed successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreGroupRequest $request)
     {
-        //
+        try {
+            $validated = $request->validated();
+            if (!(Classification::find($validated['classification_id'])))
+                return ApiResponse::Error(null, 'Classification not found', 404);
+            $data = $this->groupRepository->store($validated);
+            return ApiResponse::SuccessOne($data, GroupResource::class, 'Group created successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Group $group)
+    public function show($id)
     {
-        //
+        try {
+            $data = $this->groupRepository->show($id);
+            return ApiResponse::SuccessOne($data, GroupResource::class, 'Successful');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateGroupRequest $request, Group $group)
+    public function update(UpdateGroupRequest $request, $id)
     {
-        //
+        try {
+            $validated = $request->validated();
+            $data = $this->groupRepository->update($id, $validated);
+            return ApiResponse::SuccessOne($data, GroupResource::class, 'Group updated successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Group $group)
+    public function destroy($id)
     {
-        //
+        try {
+            $this->groupRepository->destroy($id);
+            return ApiResponse::SuccessOne(null, null, 'Group deleted successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage(), 404);
+        }
+    }
+
+    public function showDeleted()
+    {
+        try {
+            $data = $this->groupRepository->showDeleted();
+            return ApiResponse::SuccessMany($data, null, 'Groups indexed successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
+    }
+
+    public function restore(Request $request)
+    {
+        $ids = $request->input('ids');
+        if ($ids != null) {
+            try {
+                $this->groupRepository->restore($ids);
+                return ApiResponse::SuccessOne(null, null, 'restored successfully');
+            } catch (Throwable $th) {
+                return ApiResponse::Error(null, $th->getMessage());
+            }
+        }
+        return ApiResponse::Error(null, 'Groups must be provided');
     }
 }

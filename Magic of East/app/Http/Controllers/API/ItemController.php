@@ -3,49 +3,99 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Interfaces\ItemRepositoryInterface;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use App\Http\Resources\ItemResource;
+use App\Http\Responses\ApiResponse;
+use App\Models\Group;
+use Throwable;
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private $itemRepository;
+
+    public function __construct(ItemRepositoryInterface $itemRepository)
+    {
+        $this->itemRepository = $itemRepository;
+    }
+
     public function index()
     {
-        //
+        try {
+            $data = $this->itemRepository->index();
+            return ApiResponse::SuccessMany($data, null, 'Items indexed successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreItemRequest $request)
     {
-        //
+        try {
+            $validated = $request->validated();
+            if (!(Group::find($validated['group_id'])))
+                return ApiResponse::Error(null, 'Group not found', 404);
+            $data = $this->itemRepository->store($validated);
+            return ApiResponse::SuccessOne($data, ItemResource::class, 'Item created successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Item $item)
+    public function show($id)
     {
-        //
+        try {
+            $data = $this->itemRepository->show($id);
+            return ApiResponse::SuccessOne($data, ItemResource::class, 'Successful');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateItemRequest $request, Item $item)
+    public function update(UpdateItemRequest $request, $id)
     {
-        //
+        try {
+            $validated = $request->validated();
+            $data = $this->itemRepository->update($id, $validated);
+            return ApiResponse::SuccessOne($data, ItemResource::class, 'Item updated successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Item $item)
+    public function destroy($id)
     {
-        //
+        try {
+            $this->itemRepository->destroy($id);
+            return ApiResponse::SuccessOne(null, null, 'Item deleted successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage(), 404);
+        }
+    }
+
+    public function showDeleted()
+    {
+        try {
+            $data = $this->itemRepository->showDeleted();
+            return ApiResponse::SuccessMany($data, null, 'Items indexed successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
+    }
+
+    public function restore(Request $request)
+    {
+        $ids = $request->input('ids');
+        if ($ids != null) {
+            try {
+                $this->itemRepository->restore($ids);
+                return ApiResponse::SuccessOne(null, null, 'restored successfully');
+            } catch (Throwable $th) {
+                return ApiResponse::Error(null, $th->getMessage());
+            }
+        }
+        return ApiResponse::Error(null, 'Items must be provided');
     }
 }

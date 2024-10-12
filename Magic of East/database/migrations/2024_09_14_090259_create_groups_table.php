@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('classification_id')->constrained();
+            $table->foreignId('classification_id')->references('id')->on('classification')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -3,49 +3,96 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Invoice;
+use App\Http\Interfaces\InvoiceRepositoryInterface;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use App\Http\Resources\InvoiceResource;
+use App\Http\Responses\ApiResponse;
+use Illuminate\Http\Request;
+use Throwable;
 
 class InvoiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private $invoiceRepository;
+
+    public function __construct(InvoiceRepositoryInterface $invoiceRepository)
+    {
+        $this->invoiceRepository = $invoiceRepository;
+    }
+
     public function index()
     {
-        //
+        try {
+            $data = $this->invoiceRepository->index();
+            return ApiResponsense::SuccessMany($data, null, 'Invoices indexed successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreInvoiceRequest $request)
     {
-        //
+        try {
+            $validated = $request->validated();
+            $data = $this->invoiceRepository->store($validated);
+            return ApiResponse::SuccessOne($data, InvoiceResource::class, 'Invoice created successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Invoice $invoice)
+    public function show($id)
     {
-        //
+        try {
+            $data = $this->invoiceRepository->show($id);
+            return ApiResponse::SuccessOne($data, InvoiceResource::class, 'Successful');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
+    public function update(UpdateInvoiceRequest $request, $id)
     {
-        //
+        try {
+            $validated = $request->validated();
+            $data = $this->invoiceRepository->update($id, $validated);
+            return ApiResponse::SuccessOne($data, InvoiceResource::class, 'Invoice updated successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Invoice $invoice)
+    public function destroy($id)
     {
-        //
+        try {
+            $this->invoiceRepository->destroy($id);
+            return ApiResponse::SuccessOne(null, null, 'Invoice deleted successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage(), 404);
+        }
+    }
+
+    public function showDeleted()
+    {
+        try {
+            $data = $this->invoiceRepository->showDeleted();
+            return ApiResponse::SuccessMany($data, null, 'Invoices indexed successfully');
+        } catch (Throwable $th) {
+            return ApiResponse::Error(null, $th->getMessage());
+        }
+    }
+
+    public function restore(Request $request)
+    {
+        $ids = $request->input('ids');
+        if ($ids != null) {
+            try {
+                $this->invoiceRepository->restore($ids);
+                return ApiResponse::SuccessOne(null, null, 'restored successfully');
+            } catch (Throwable $th) {
+                return ApiResponse::Error(null, $th->getMessage());
+            }
+        }
+        return ApiResponse::Error(null, 'Invoices must be provided');
     }
 }

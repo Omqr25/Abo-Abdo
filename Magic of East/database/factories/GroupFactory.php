@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Classification;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class GroupFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name,
+            'classification_id' => Classification::all()->random()->id,
         ];
     }
 }
