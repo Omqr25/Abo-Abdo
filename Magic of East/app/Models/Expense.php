@@ -13,5 +13,6 @@ class Expense extends Model
         'name',
         'cost',
         'number',
+        'type'
     ];
 }

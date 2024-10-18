@@ -17,8 +17,6 @@ class Item extends Model
 
     protected $fillable = [
         'name',
-        'description',
-        'color',
         'group_id',
     ];
 
@@ -33,20 +31,5 @@ class Item extends Model
     public function media(): HasMany
     {
         return $this->hasMany(Media::class);
-    }
-
-    public function invoice(): BelongsToMany
-    {
-        return $this->belongsToMany(Invoice::class);
-    }
-
-    public function invoiceItems(): HasMany
-    {
-        return $this->hasMany(InvoiceItem::class);
-    }
-
-    public function favorite(): MorphMany
-    {
-        return $this->morphMany(Favorite::class, 'favoritable');
     }
 }

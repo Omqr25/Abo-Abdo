@@ -4,16 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class InvoiceItem extends Model
+class InvoiceGroup extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'invoice_id',
-        'item_id',
+        'group_id',
         'net_price',
         'sell_price',
         'quantity',
@@ -24,8 +22,8 @@ class InvoiceItem extends Model
         return $this->belongsTo(Invoice::class);
     }
 
-    public function item(): BelongsTo
+    public function group(): BelongsTo
     {
-        return $this->belongsTo(Item::class);
+        return $this->belongsTo(Group::class);
     }
 }

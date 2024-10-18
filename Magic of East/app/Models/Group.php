@@ -15,7 +15,9 @@ class Group extends Model
 
     protected $fillable=[
         'name',
-        'classification_id'  
+        'classification_id',
+        'description',
+        'color',  
       ];
 
       public function classification(): BelongsTo
@@ -26,10 +28,5 @@ class Group extends Model
     public function item(): HasMany
     {
       return $this->hasMany(Item::class);
-    }
-
-    public function favorite(): MorphMany
-    {
-        return $this->morphMany(Favorite::class, 'favoritable');
     }
 }

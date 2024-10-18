@@ -24,7 +24,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'phone',
+        'email',
         'password',
         'address',
     ];
@@ -47,18 +47,8 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'phone_verified_at' => 'datetime',
+            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function favorite(): HasMany
-    {
-        return $this->hasMany(Favorite::class);
-    }
-
-    public function invoice(): HasMany
-    {
-        return $this->hasMany(InvoiceController::class);
     }
 }

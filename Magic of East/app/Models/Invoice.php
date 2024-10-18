@@ -13,25 +13,24 @@ class Invoice extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [ // later must remove the foreign key from fillable
-        'user_id',
+    protected $fillable = [ 
+        'customer_id',
         'with_delivery',
         'total_price',
         'notes',
     ];
 
-    public function item(): BelongsToMany
+    public function group(): BelongsToMany
     {
         return $this->belongsToMany(Item::class);
     }
-
-    public function invoiceItems(): HasMany
+    public function invoicegroup(): HasMany
     {
-        return $this->hasMany(InvoiceItem::class);
+        return $this->hasMany(InvoiceGroup::class);
     }
 
-    public function user(): BelongsTo
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Customer::class);
     }
 }
