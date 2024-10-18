@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\EmployerExpenseType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,14 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees', function (Blueprint $table) {
+        Schema::create('rewards_deductions', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('phonenumber');
-            $table->string('address');
-            $table->string('position');
-            $table->Integer('salary');
+            $table->enum('type' , [EmployerExpenseType::reward, EmployerExpenseType::deduction]);
+            $table->integer('amount');
+            $table->foreignId('employer_id')->constrained('employees')->cascadeOnDelete();  
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees');
+        Schema::dropIfExists('rewards_deductions');
     }
 };
