@@ -17,9 +17,10 @@ class ItemFactory extends Factory
      */
     public function definition(): array
     {
+        $sizes = ['small', 'medium', 'big'];
         return [
             'name' => fake()->name,
-            'sizes' => json_encode(array_rand(['small' , 'medium' , 'big'])),
+            'sizes' => $sizes[array_rand($sizes)],
             'group_id' => Group::all()->random()->id,
         ];
     }

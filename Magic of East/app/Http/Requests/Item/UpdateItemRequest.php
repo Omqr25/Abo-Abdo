@@ -23,7 +23,7 @@ class UpdateItemRequest extends FormRequest
     {
         return [
             'name' => 'string|min:4',
-            'sizes' => 'string',
+            'sizes' => '',
             'group_id' => 'exists:groups,id'
         ];
     }

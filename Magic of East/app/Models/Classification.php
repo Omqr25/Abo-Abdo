@@ -16,7 +16,7 @@ class Classification extends Model
         'name',
     ];
 
-    protected $cascadeDeletes = ['group'];
+    protected $cascadeDeletes = ['groups'];
 
     public function groups(): HasMany
     {

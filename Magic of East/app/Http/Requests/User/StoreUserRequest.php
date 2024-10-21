@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\User;
 
+use App\Rules\isValidContact;
+use App\Rules\isValidURL;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserRequest extends FormRequest
@@ -27,9 +29,9 @@ class StoreUserRequest extends FormRequest
             'email' => 'required|email|string|unique:users,email',
             'password' => 'required|confirmed|min:8',
             'address' => 'string',
-            'phonenumbers' => 'numeric|unique:users,phonenumbers',
-            'mobilenumbers' => 'numeric|phone:SY|unique:users,mobilenumbers',
-            'socialaccounts' => 'url'
+            'phonenumbers' => new isValidContact('users'),
+            'mobilenumbers' => new isValidContact('users'),
+            'socialaccounts' => new isValidURL,
         ];
     }
 }

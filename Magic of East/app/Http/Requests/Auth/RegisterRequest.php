@@ -28,8 +28,8 @@ class RegisterRequest extends FormRequest
             'email' => 'required|email|string|unique:users,email',
             'password' => 'required|confirmed|min:8',
             'address' => 'string',
-            'phonenumbers' => 'numeric|unique:users,phonenumbers',
-            'mobilenumbers' => 'numeric|phone:SY|unique:users,mobilenumbers',
+            'phonenumbers' => new isValidContact('users'),
+            'mobilenumbers' => new isValidContact('users'),
             'socialaccounts' => new isValidURL,
         ];
     }

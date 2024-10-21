@@ -32,6 +32,8 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
+        'phonenumbers' => 'array',
+        'mobilenumbers' => 'array',
         'socialaccounts' => 'array',
     ];
 

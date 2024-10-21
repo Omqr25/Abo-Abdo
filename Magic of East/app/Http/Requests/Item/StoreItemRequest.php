@@ -23,7 +23,7 @@ class StoreItemRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:4',
-            'sizes' => 'required|string',
+            'sizes' => 'required',
             'group_id' => 'required|exists:groups,id'
         ];
     }

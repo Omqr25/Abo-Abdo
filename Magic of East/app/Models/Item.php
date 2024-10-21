@@ -14,8 +14,12 @@ class Item extends Model
 
     protected $fillable = [
         'name',
-        'size',
+        'sizes',
         'group_id',
+    ];
+
+    protected $casts = [
+        'sizes' => 'array',
     ];
 
     public function group(): BelongsTo

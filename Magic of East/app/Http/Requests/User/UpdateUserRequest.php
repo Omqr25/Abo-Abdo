@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\User;
 
+use App\Rules\isValidContact;
+use App\Rules\isValidURL;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
@@ -25,9 +27,9 @@ class UpdateUserRequest extends FormRequest
             'firstname' => 'string|min:4',
             'lastname' => 'string|min:4',
             'address' => 'string',
-            'phonenumbers' => 'numeric|unique:users,phonenumbers',
-            'mobilenumbers' => 'numeric|phone:SY|unique:users,mobilenumbers',
-            'socialaccounts' => 'url',
+            'phonenumbers' => new isValidContact('users'),
+            'mobilenumbers' => new isValidContact('users'),
+            'socialaccounts' => new isValidURL,
         ];
     }
 }

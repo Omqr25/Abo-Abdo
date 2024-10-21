@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum ItemColor: int
 {
-    case RED = 1;
+    case Red = 1;
     case Green = 2;
     case Blue = 3;
     case Yellow = 4;
