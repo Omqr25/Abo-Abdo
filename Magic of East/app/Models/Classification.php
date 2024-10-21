@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Classification extends Model
 {
-    use HasFactory, SoftDeletes, CascadeSoftDeletes;
+    use HasFactory, SoftDeletes,CascadeSoftDeletes;
 
     protected $fillable = [
         'name',

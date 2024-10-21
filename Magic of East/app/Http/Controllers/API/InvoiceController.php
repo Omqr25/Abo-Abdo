@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Interfaces\InvoiceRepositoryInterface;
-use App\Http\Requests\StoreInvoiceRequest;
-use App\Http\Requests\UpdateInvoiceRequest;
+use App\Http\Requests\Invoice\StoreInvoiceRequest;
+use App\Http\Requests\Invoice\UpdateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
 use App\Http\Responses\ApiResponse;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class InvoiceController extends Controller
     {
         try {
             $data = $this->invoiceRepository->index();
-            return ApiResponsense::SuccessMany($data, null, 'Invoices indexed successfully');
+            return ApiResponse::SuccessMany($data, null, 'Invoices indexed successfully');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage());
         }

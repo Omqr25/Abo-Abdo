@@ -5,11 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Interfaces\ItemRepositoryInterface;
 use App\Models\Item;
-use App\Http\Requests\StoreItemRequest;
-use App\Http\Requests\UpdateItemRequest;
+use App\Http\Requests\Item\StoreItemRequest;
+use App\Http\Requests\Item\UpdateItemRequest;
 use App\Http\Resources\ItemResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\Group;
+use Illuminate\Support\Facades\Request;
 use Throwable;
 
 class ItemController extends Controller

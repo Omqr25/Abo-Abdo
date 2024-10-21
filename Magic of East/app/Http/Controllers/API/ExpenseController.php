@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Expense;
-use App\Http\Requests\StoreExpenseRequest;
-use App\Http\Requests\UpdateExpenseRequest;
+use App\Http\Requests\Expense\StoreExpenseRequest;
+use App\Http\Requests\Expense\UpdateExpenseRequest;
 
 class ExpenseController extends Controller
 {

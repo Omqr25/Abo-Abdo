@@ -58,7 +58,7 @@ Route::controller(UserController::class)->prefix('users')->group(function () {
     Route::post('restore', 'restore');
 });
 
-Route::apiResources([ // Favorite & InvoiceItem
+Route::apiResources([ 
     'classifications' => ClassificationController::class,
     'groups' => GroupController::class,
     'items' => ItemController::class,

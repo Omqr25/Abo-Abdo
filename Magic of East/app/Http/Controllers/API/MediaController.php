@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Media;
-use App\Http\Requests\StoreMediaRequest;
-use App\Http\Requests\UpdateMediaRequest;
+use App\Http\Requests\Media\StoreMediaRequest;
+use App\Http\Requests\Media\UpdateMediaRequest;
 
 class MediaController extends Controller
 {

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
-use App\Http\Requests\StoreEmployeeRequest;
-use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Requests\Employee\StoreEmployeeRequest;
+use App\Http\Requests\Employee\UpdateEmployeeRequest;
 
 class EmployeeController extends Controller
 {
