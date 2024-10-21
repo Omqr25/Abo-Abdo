@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ItemColor;
 use App\Models\Classification;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,6 +20,8 @@ class GroupFactory extends Factory
     {
         return [
             'name' => fake()->name,
+            'description' => fake()->text(20),
+            'color' => $this->faker->randomElement(ItemColor::class),
             'classification_id' => Classification::all()->random()->id,
         ];
     }

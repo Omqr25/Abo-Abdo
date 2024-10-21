@@ -22,10 +22,11 @@ class UpdateInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'exists:users,id',
+            'customer_id' => 'exists:customers,id',
             'notes' => 'string|min:3',
             'with_delivery' => 'boolean',
-            'total_price' => 'numeric|gt:0',
+            'total_net_price' => 'numeric|gt:0',
+            'total_sell_price' => 'numeric|gt:0',
         ];
     }
 }

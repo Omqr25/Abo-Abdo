@@ -18,8 +18,7 @@ class ItemResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'description'  => $this->description,
-            'color' => ($this->color instanceof ItemColor) ? $this->color->name : null,
+            'sizes' => $this->sizes,
             'group' => [
                 'id' => $this->group_id,
                 'name' => $this->group->name ?? null,

@@ -2,7 +2,7 @@
 
 namespace App\Http\Interfaces;
 
-interface InvoiceItemRepositoryInterface
+interface InvoiceGroupRepositoryInterface
 {
     
 }

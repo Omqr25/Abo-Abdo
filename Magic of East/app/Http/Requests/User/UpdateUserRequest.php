@@ -22,9 +22,12 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'string|min:4',
-            'phone'=>'phone:SY|unique:users,phone',
-            'address'=>'string',
+            'firstname' => 'string|min:4',
+            'lastname' => 'string|min:4',
+            'address' => 'string',
+            'phonenumbers' => 'numeric|unique:users,phonenumbers',
+            'mobilenumbers' => 'numeric|phone:SY|unique:users,mobilenumbers',
+            'socialaccounts' => 'url',
         ];
     }
 }

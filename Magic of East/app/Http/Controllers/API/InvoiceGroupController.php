@@ -3,39 +3,39 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Interfaces\InvoiceItemRepositoryInterface;
-use App\Http\Requests\StoreInvoiceItemRequest;
-use App\Http\Requests\UpdateInvoiceItemRequest;
-use App\Http\Resources\InvoiceItemResource;
+use App\Http\Interfaces\InvoiceGroupRepositoryInterface;
+use App\Http\Requests\InvoiceGroup\StoreInvoiceGroupRequest;
+use App\Http\Requests\InvoiceGroup\UpdateInvoiceGroupRequest;
+use App\Http\Resources\InvoiceGroupResource;
 use App\Http\Responses\ApiResponse;
 use Illuminate\Http\Request;
 use Throwable;
 
-class InvoiceItemController extends Controller
+class InvoiceGroupController extends Controller
 {
-    private $invoiceItemRepository;
+    private $invoiceGroupRepository;
 
-    public function __construct(InvoiceItemRepositoryInterface $invoiceItemRepository)
+    public function __construct(InvoiceGroupRepositoryInterface $invoiceGroupRepository)
     {
-        $this->invoiceItemRepository = $invoiceItemRepository;
+        $this->invoiceGroupRepository = $invoiceGroupRepository;
     }
 
     public function index()
     {
         try {
-            $data = $this->invoiceItemRepository->index();
-            return ApiResponse::SuccessMany($data, null, 'Invoice items indexed successfully');
+            $data = $this->invoiceGroupRepository->index();
+            return ApiResponse::SuccessMany($data, null, 'Invoice groups indexed successfully');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage());
         }
     }
 
-    public function store(StoreInvoiceItemRequest $request)
+    public function store(StoreInvoiceGroupRequest $request)
     {
         try {
             $validated = $request->validated();
-            $data = $this->invoiceItemRepository->store($validated);
-            return ApiResponse::SuccessOne($data, InvoiceItemResource::class, 'Invoice item created successfully');
+            $data = $this->invoiceGroupRepository->store($validated);
+            return ApiResponse::SuccessOne($data, InvoiceGroupResource::class, 'Invoice Group created successfully');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage());
         }
@@ -44,19 +44,19 @@ class InvoiceItemController extends Controller
     public function show($id)
     {
         try {
-            $data = $this->invoiceItemRepository->show($id);
-            return ApiResponse::SuccessOne($data, InvoiceItemResource::class, 'Successful');
+            $data = $this->invoiceGroupRepository->show($id);
+            return ApiResponse::SuccessOne($data, InvoiceGroupResource::class, 'Successful');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage());
         }
     }
 
-    public function update(UpdateInvoiceItemRequest $request, $id)
+    public function update(UpdateInvoiceGroupRequest $request, $id)
     {
         try {
             $validated = $request->validated();
-            $data = $this->invoiceItemRepository->update($id, $validated);
-            return ApiResponse::SuccessOne($data, InvoiceItemResource::class, 'Invoice item updated successfully');
+            $data = $this->invoiceGroupRepository->update($id, $validated);
+            return ApiResponse::SuccessOne($data, InvoiceGroupResource::class, 'Invoice group updated successfully');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage());
         }
@@ -65,8 +65,8 @@ class InvoiceItemController extends Controller
     public function destroy($id)
     {
         try {
-            $this->invoiceItemRepository->destroy($id);
-            return ApiResponse::SuccessOne(null, null, 'Invoice item deleted successfully');
+            $this->invoiceGroupRepository->destroy($id);
+            return ApiResponse::SuccessOne(null, null, 'Invoice group deleted successfully');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage(), 404);
         }
@@ -75,7 +75,7 @@ class InvoiceItemController extends Controller
     public function showDeleted()
     {
         try {
-            $data = $this->invoiceItemRepository->showDeleted();
+            $data = $this->invoiceGroupRepository->showDeleted();
             return ApiResponse::SuccessMany($data, null, 'Records indexed successfully');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage());
@@ -87,12 +87,12 @@ class InvoiceItemController extends Controller
         $ids = $request->input('ids');
         if ($ids != null) {
             try {
-                $this->invoiceItemRepository->restore($ids);
+                $this->invoiceGroupRepository->restore($ids);
                 return ApiResponse::SuccessOne(null, null, 'restored successfully');
             } catch (Throwable $th) {
                 return ApiResponse::Error(null, $th->getMessage());
             }
         }
-        return ApiResponse::Error(null, 'Invoice items must be provided');
+        return ApiResponse::Error(null, 'Invoice groups must be provided');
     }
 }

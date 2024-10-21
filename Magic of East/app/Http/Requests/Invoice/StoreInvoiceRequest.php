@@ -22,10 +22,11 @@ class StoreInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
+            'customer_id' => 'required|exists:customers,id',
             'notes' => 'string|min:3',
             'with_delivery' => 'required|boolean',
-            'total_price' => 'required|numeric|gt:0',
+            'total_net_price' => 'numeric|gt:0',
+            'total_sell_price' => 'numeric|gt:0',
         ];
     }
 }

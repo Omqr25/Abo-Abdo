@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->json('color');
+            $table->integer('color');
             $table->foreignId('classification_id')->references('id')->on('classifications')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

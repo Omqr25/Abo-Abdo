@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Item;
 
-use App\Enums\ItemColor;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
 
 class StoreItemRequest extends FormRequest
 {
@@ -25,8 +23,7 @@ class StoreItemRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:4',
-            'description' => 'required|string',
-            'color' => ['required', new Enum(ItemColor::class)],
+            'sizes' => 'required|string',
             'group_id' => 'required|exists:groups,id'
         ];
     }

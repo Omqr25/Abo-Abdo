@@ -13,20 +13,20 @@ class Employee extends Model
     protected $fillable = [
         'firstname',
         'lastname',
-        'salary',
-        'address',
         'phonenumber',
+        'address',
         'position',
+        'salary',
         'reward',
-        'deduction'
+        'deduction',
     ];
 
-    public function reward(): HasMany
+    public function rewards(): HasMany
     {
         return $this->hasMany(RewardDeduction::class)->where('type' , '=' , 'reward');
     }
 
-    public function deduction(): HasMany
+    public function deductions(): HasMany
     {
         return $this->hasMany(RewardDeduction::class)->where('type' , '=' , 'deduction');
     }

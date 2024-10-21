@@ -18,7 +18,7 @@ class Classification extends Model
 
     protected $cascadeDeletes = ['group'];
 
-    public function group(): HasMany
+    public function groups(): HasMany
     {
         return $this->hasMany(Group::class);
     }
