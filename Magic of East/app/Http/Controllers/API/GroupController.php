@@ -7,13 +7,15 @@ use App\Http\Interfaces\GroupRepositoryInterface;
 use App\Http\Requests\Group\StoreGroupRequest;
 use App\Http\Requests\Group\UpdateGroupRequest;
 use App\Http\Resources\GroupResource;
-use App\Http\Responses\ApiResponse;
 use App\Models\Classification;
+use App\Trait\ApiResponse;
 use Illuminate\Http\Request;
 use Throwable;
 
 class GroupController extends Controller
 {
+    use ApiResponse;
+
     private $groupRepository;
 
     public function __construct(GroupRepositoryInterface $groupRepository)
@@ -25,9 +27,9 @@ class GroupController extends Controller
     {
         try {
             $data = $this->groupRepository->index();
-            return ApiResponse::SuccessMany($data, null, 'Groups indexed successfully');
+            return $this->SuccessMany($data, null, 'Groups indexed successfully');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage());
         }
     }
 
@@ -36,11 +38,11 @@ class GroupController extends Controller
         try {
             $validated = $request->validated();
             if (!(Classification::find($validated['classification_id'])))
-                return ApiResponse::Error(null, 'Classification not found', 404);
+                return $this->Error(null, 'Classification not found', 404);
             $data = $this->groupRepository->store($validated);
-            return ApiResponse::SuccessOne($data, GroupResource::class, 'Group created successfully');
+            return $this->SuccessOne($data, GroupResource::class, 'Group created successfully');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage());
         }
     }
 
@@ -48,9 +50,9 @@ class GroupController extends Controller
     {
         try {
             $data = $this->groupRepository->show($id);
-            return ApiResponse::SuccessOne($data, GroupResource::class, 'Successful');
+            return $this->SuccessOne($data, GroupResource::class, 'Successful');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage());
         }
     }
 
@@ -59,9 +61,9 @@ class GroupController extends Controller
         try {
             $validated = $request->validated();
             $data = $this->groupRepository->update($id, $validated);
-            return ApiResponse::SuccessOne($data, GroupResource::class, 'Group updated successfully');
+            return $this->SuccessOne($data, GroupResource::class, 'Group updated successfully');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage());
         }
     }
 
@@ -69,9 +71,9 @@ class GroupController extends Controller
     {
         try {
             $this->groupRepository->destroy($id);
-            return ApiResponse::SuccessOne(null, null, 'Group deleted successfully');
+            return $this->SuccessOne(null, null, 'Group deleted successfully');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage(), 404);
+            return $this->Error(null, $th->getMessage(), 404);
         }
     }
 
@@ -79,9 +81,9 @@ class GroupController extends Controller
     {
         try {
             $data = $this->groupRepository->showDeleted();
-            return ApiResponse::SuccessMany($data, null, 'Groups indexed successfully');
+            return $this->SuccessMany($data, null, 'Groups indexed successfully');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage());
         }
     }
 
@@ -91,11 +93,11 @@ class GroupController extends Controller
         if ($ids != null) {
             try {
                 $this->groupRepository->restore($ids);
-                return ApiResponse::SuccessOne(null, null, 'restored successfully');
+                return $this->SuccessOne(null, null, 'restored successfully');
             } catch (Throwable $th) {
-                return ApiResponse::Error(null, $th->getMessage());
+                return $this->Error(null, $th->getMessage());
             }
         }
-        return ApiResponse::Error(null, 'Groups must be provided');
+        return $this->Error(null, 'Groups must be provided');
     }
 }

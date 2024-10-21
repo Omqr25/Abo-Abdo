@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Responses\ApiResponse;
 use App\Models\User;
+use App\Trait\ApiResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    use ApiResponse;
+    
     public function __construct()
     {
         $this->middleware('auth:sanctum', ['only' => 'logout']);
@@ -54,6 +56,6 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::user()->tokens()->delete();
-        return ApiResponse::SuccessOne(null, null, 'Successfully logged out', 200);
+        return $this->SuccessOne(null, null, 'Successfully logged out', 200);
     }
 }

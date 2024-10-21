@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\isValidContact;
 use App\Rules\isValidURL;
 use Illuminate\Foundation\Http\FormRequest;
 

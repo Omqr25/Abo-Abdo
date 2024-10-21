@@ -3,41 +3,41 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Interfaces\UserRepositoryInterface;
-use App\Http\Requests\User\StoreUserRequest;
-use App\Http\Requests\User\UpdateUserRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Interfaces\CustomerRepositoryInterface;
+use App\Http\Requests\Customer\StoreCustomerRequest;
+use App\Http\Requests\Customer\UpdateCustomerRequest;
+use App\Http\Resources\CustomerResource;
 use App\Trait\ApiResponse;
 use Illuminate\Http\Request;
 use Throwable;
 
-class UserController extends Controller
+class CustomerController extends Controller
 {
     use ApiResponse;
 
-    private $userRepository;
+    private $customerRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(CustomerRepositoryInterface $customerRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->customerRepository = $customerRepository;
     }
 
     public function index()
     {
         try {
-            $data = $this->userRepository->index();
-            return $this->SuccessMany($data, null, 'Users indexed successfully');
+            $data = $this->customerRepository->index();
+            return $this->SuccessMany($data, CustomerResource::class, 'Customers indexed successfully');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());
         }
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(StoreCustomerRequest $request)
     {
         try {
             $validated = $request->validated();
-            $data = $this->userRepository->store($validated);
-            return $this->SuccessOne($data, UserResource::class, 'User created successfully');
+            $data = $this->customerRepository->store($validated);
+            return $this->SuccessOne($data, CustomerResource::class, 'Customer created successfully');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());
         }
@@ -46,19 +46,19 @@ class UserController extends Controller
     public function show($id)
     {
         try {
-            $data = $this->userRepository->show($id);
-            return $this->SuccessOne($data, UserResource::class, 'Successful');
+            $data = $this->customerRepository->show($id);
+            return $this->SuccessOne($data, CustomerResource::class, 'Successful');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());
         }
     }
 
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateCustomerRequest $request, $id)
     {
         try {
             $validated = $request->validated();
-            $data = $this->userRepository->update($id, $validated);
-            return $this->SuccessOne($data, UserResource::class, 'User updated successfully');
+            $data = $this->customerRepository->update($id, $validated);
+            return $this->SuccessOne($data, CustomerResource::class, 'Customer updated successfully');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());
         }
@@ -67,8 +67,8 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $this->userRepository->destroy($id);
-            return $this->SuccessOne(null, null, 'User deleted successfully');
+            $this->customerRepository->destroy($id);
+            return $this->SuccessOne(null, null, 'Customer deleted successfully');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage(), 404);
         }
@@ -77,7 +77,7 @@ class UserController extends Controller
     public function showDeleted()
     {
         try {
-            $data = $this->userRepository->showDeleted();
+            $data = $this->customerRepository->showDeleted();
             return $this->SuccessMany($data, null, 'Records indexed successfully');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());
@@ -85,16 +85,16 @@ class UserController extends Controller
     }
 
     public function restore(Request $request)
-    { 
+    {
         $ids = $request->input('ids');
         if ($ids != null) {
             try {
-                $this->userRepository->restore($ids);
+                $this->customerRepository->restore($ids);
                 return $this->SuccessOne(null, null, 'restored successfully');
             } catch (Throwable $th) {
                 return $this->Error(null, $th->getMessage());
             }
         }
-        return $this->Error(null, 'Users must be provided');
+        return $this->Error(null, 'Customers must be provided');
     }
 }

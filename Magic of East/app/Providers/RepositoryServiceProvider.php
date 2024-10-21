@@ -10,6 +10,8 @@ use App\Http\Interfaces\ItemRepositoryInterface;
 use App\Http\Repositories\ItemRepository;
 use App\Http\Interfaces\GroupRepositoryInterface;
 use App\Http\Repositories\GroupRepository;
+use App\Http\Interfaces\CustomerRepositoryInterface;
+use App\Http\Repositories\CustomerRepository;
 use App\Http\Interfaces\InvoiceGroupRepositoryInterface;
 use App\Http\Repositories\InvoiceGroupRepository;
 use App\Http\Interfaces\InvoiceRepositoryInterface;
@@ -29,6 +31,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ClassificationRepositoryInterface::class, ClassificationRepository::class);
         $this->app->bind(GroupRepositoryInterface::class, GroupRepository::class);
         $this->app->bind(ItemRepositoryInterface::class, ItemRepository::class);
+        $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
         $this->app->bind(InvoiceRepositoryInterface::class, InvoiceRepository::class);
         $this->app->bind(InvoiceGroupRepositoryInterface::class, InvoiceGroupRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);

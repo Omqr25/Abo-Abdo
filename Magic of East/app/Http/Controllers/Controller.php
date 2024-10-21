@@ -10,14 +10,3 @@ abstract class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 }
-
-/*
-<?php
-
-namespace App\Http\Controllers;
-
-abstract class Controller
-{
-    //
-}
-*/

@@ -7,12 +7,14 @@ use App\Http\Interfaces\InvoiceRepositoryInterface;
 use App\Http\Requests\Invoice\StoreInvoiceRequest;
 use App\Http\Requests\Invoice\UpdateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
-use App\Http\Responses\ApiResponse;
+use App\Trait\ApiResponse;
 use Illuminate\Http\Request;
 use Throwable;
 
 class InvoiceController extends Controller
 {
+    use ApiResponse;
+
     private $invoiceRepository;
 
     public function __construct(InvoiceRepositoryInterface $invoiceRepository)
@@ -24,9 +26,9 @@ class InvoiceController extends Controller
     {
         try {
             $data = $this->invoiceRepository->index();
-            return ApiResponse::SuccessMany($data, null, 'Invoices indexed successfully');
+            return $this->SuccessMany($data, InvoiceResource::class, 'Invoices indexed successfully');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage());
         }
     }
 
@@ -35,9 +37,9 @@ class InvoiceController extends Controller
         try {
             $validated = $request->validated();
             $data = $this->invoiceRepository->store($validated);
-            return ApiResponse::SuccessOne($data, InvoiceResource::class, 'Invoice created successfully');
+            return $this->SuccessOne($data, InvoiceResource::class, 'Invoice created successfully');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage());
         }
     }
 
@@ -45,9 +47,9 @@ class InvoiceController extends Controller
     {
         try {
             $data = $this->invoiceRepository->show($id);
-            return ApiResponse::SuccessOne($data, InvoiceResource::class, 'Successful');
+            return $this->SuccessOne($data, InvoiceResource::class, 'Successful');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage());
         }
     }
 
@@ -56,9 +58,9 @@ class InvoiceController extends Controller
         try {
             $validated = $request->validated();
             $data = $this->invoiceRepository->update($id, $validated);
-            return ApiResponse::SuccessOne($data, InvoiceResource::class, 'Invoice updated successfully');
+            return $this->SuccessOne($data, InvoiceResource::class, 'Invoice updated successfully');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage());
         }
     }
 
@@ -66,9 +68,9 @@ class InvoiceController extends Controller
     {
         try {
             $this->invoiceRepository->destroy($id);
-            return ApiResponse::SuccessOne(null, null, 'Invoice deleted successfully');
+            return $this->SuccessOne(null, null, 'Invoice deleted successfully');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage(), 404);
+            return $this->Error(null, $th->getMessage(), 404);
         }
     }
 
@@ -76,9 +78,9 @@ class InvoiceController extends Controller
     {
         try {
             $data = $this->invoiceRepository->showDeleted();
-            return ApiResponse::SuccessMany($data, null, 'Invoices indexed successfully');
+            return $this->SuccessMany($data, null, 'Invoices indexed successfully');
         } catch (Throwable $th) {
-            return ApiResponse::Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage());
         }
     }
 
@@ -88,11 +90,11 @@ class InvoiceController extends Controller
         if ($ids != null) {
             try {
                 $this->invoiceRepository->restore($ids);
-                return ApiResponse::SuccessOne(null, null, 'restored successfully');
+                return $this->SuccessOne(null, null, 'restored successfully');
             } catch (Throwable $th) {
-                return ApiResponse::Error(null, $th->getMessage());
+                return $this->Error(null, $th->getMessage());
             }
         }
-        return ApiResponse::Error(null, 'Invoices must be provided');
+        return $this->Error(null, 'Invoices must be provided');
     }
 }

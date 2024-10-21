@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\ClassificationController;
+use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\EmployeeController;
 use App\Http\Controllers\API\ExpenseController;
 use App\Http\Controllers\API\GroupController;
@@ -43,6 +44,11 @@ Route::controller(ItemController::class)->prefix('items')->group(function () {
     Route::post('restore', 'restore');
 });
 
+Route::controller(CustomerController::class)->prefix('customers')->group(function () {
+    Route::get('show_deleted', 'showDeleted');
+    Route::post('restore', 'restore');
+});
+
 Route::controller(InvoiceController::class)->prefix('invoices')->group(function () {
     Route::get('show_deleted', 'showDeleted');
     Route::post('restore', 'restore');
@@ -63,6 +69,7 @@ Route::apiResources([
     'groups' => GroupController::class,
     'items' => ItemController::class,
     'media' => MediaController::class,
+    'customers' => CustomerController::class,
     'invoices' => InvoiceController::class,
     'invoicegroups' => InvoiceGroupController::class,
     'expenses' => ExpenseController::class,

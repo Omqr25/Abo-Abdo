@@ -15,14 +15,17 @@ trait ApiResponse
     }
     protected function SuccessOne($data, $resource = null, $message = 'Success', $code = 200): JsonResponse
     {
-        return $this->response(new $resource($data),$message);
+        if ($resource) {
+            $data = new $resource($data);
+        }
+        return $this->response($data, $message, $code);
     }
 
     protected function SuccessMany($data, $resource, $message = 'Success', $code = 200): JsonResponse
     {
         $paginationMeta = $this->getPaginationMeta($data);
-        $response = $resource::collection($data);
-        return $this->response($response , $message, $code,$paginationMeta );
+        $response = $resource ? $resource::collection($data) : $data;
+        return $this->response($response, $message, $code, $paginationMeta);
     }
 
     protected function getPaginationMeta($paginator): array

@@ -21,6 +21,11 @@ class Invoice extends Model
         'total_sell_price',
     ];
 
+    protected $casts = [
+        'total_net_price' => 'integer',
+        'total_sell_price' => 'integer',
+    ];
+
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class);

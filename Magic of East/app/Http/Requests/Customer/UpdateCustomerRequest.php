@@ -26,7 +26,7 @@ class UpdateCustomerRequest extends FormRequest
         return [
             'firstname' => 'string|min:3',
             'lastname' => 'string|min:3',
-            'phonenumber' => ['phone:SY',Rule::unique('customers','phonenumber')->ignore(Auth::id(),'id')],
+            'phonenumber' => ['phone:SY',Rule::unique('customers','phonenumber')],
             'address' => 'string|min:4',
         ];
     }
