@@ -2,7 +2,7 @@
 
 namespace App\Http\Interfaces;
 
-interface ClassificationRepositoryInterface
+interface ClassificationRepositoryInterface extends BaseRepositoryInterface
 {
     
 }

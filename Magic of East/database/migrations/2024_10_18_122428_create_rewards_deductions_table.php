@@ -14,8 +14,7 @@ return new class extends Migration
     {
         Schema::create('rewards_deductions', function (Blueprint $table) {
             $table->id();
-            // $table->enum('type' , [EmployerExpenseType::reward, EmployerExpenseType::deduction]);
-            $table->enum('type', array_column(EmployerExpenseType::cases(), 'value'));
+            $table->enum('type' , [EmployerExpenseType::reward->value, EmployerExpenseType::deduction->value]);
             $table->integer('amount');
             $table->foreignId('employer_id')->constrained('employees')->cascadeOnDelete();  
             $table->timestamps();

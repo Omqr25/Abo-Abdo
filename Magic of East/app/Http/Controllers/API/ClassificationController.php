@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Trait\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Interfaces\ClassificationRepositoryInterface;
 use App\Http\Requests\Classification\StoreClassificationRequest;
 use App\Http\Requests\Classification\UpdateClassificationRequest;
 use App\Http\Resources\ClassificationResource;
-use App\Http\Responses\ApiResponse;
+
 use Illuminate\Http\Request;
 use Throwable;
 
 class ClassificationController extends Controller
 {
+    use ApiResponse;
     private $classificationRepository;
 
     public function __construct(ClassificationRepositoryInterface $classificationRepository)
@@ -24,7 +26,7 @@ class ClassificationController extends Controller
     {
         try {
             $data = $this->classificationRepository->index();
-            return ApiResponse::SuccessMany($data, null, 'Classifications indexed successfully');
+            return self::SuccessMany($data, ClassificationResource::class, 'Classifications indexed successfully');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage());
         }
@@ -35,7 +37,7 @@ class ClassificationController extends Controller
         try {
             $validated = $request->validated();
             $data = $this->classificationRepository->store($validated);
-            return ApiResponse::SuccessOne($data, ClassificationResource::class, 'Classification created successfully');
+            return self::SuccessOne($data, ClassificationResource::class, 'Classification created successfully');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage());
         }
@@ -45,7 +47,7 @@ class ClassificationController extends Controller
     {
         try {
             $data = $this->classificationRepository->show($id);
-            return ApiResponse::SuccessOne($data, ClassificationResource::class, 'Successful');
+            return self::SuccessOne($data, ClassificationResource::class, 'Successful');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage());
         }
@@ -56,7 +58,7 @@ class ClassificationController extends Controller
         try {
             $validated = $request->validated();
             $data = $this->classificationRepository->update($id, $validated);
-            return ApiResponse::SuccessOne($data, ClassificationResource::class, 'Classification updated successfully');
+            return self::SuccessOne($data, ClassificationResource::class, 'Classification updated successfully');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage());
         }
@@ -66,7 +68,7 @@ class ClassificationController extends Controller
     {
         try {
             $this->classificationRepository->destroy($id);
-            return ApiResponse::SuccessOne(null, null, 'Classification deleted successfully');
+            return self::SuccessOne(null, null, 'Classification deleted successfully');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage(), 404);
         }
@@ -76,7 +78,7 @@ class ClassificationController extends Controller
     {
         try {
             $data = $this->classificationRepository->showDeleted();
-            return ApiResponse::SuccessMany($data, null, 'Records indexed successfully');
+            return self::SuccessMany($data, null, 'Records indexed successfully');
         } catch (Throwable $th) {
             return ApiResponse::Error(null, $th->getMessage());
         }
@@ -88,7 +90,7 @@ class ClassificationController extends Controller
         if ($ids != null) {
             try {
                 $this->classificationRepository->restore($ids);
-                return ApiResponse::SuccessOne(null, null, 'restored successfully');
+                return self::SuccessOne(null, null, 'restored successfully');
             } catch (Throwable $th) {
                 return ApiResponse::Error(null, $th->getMessage());
             }
