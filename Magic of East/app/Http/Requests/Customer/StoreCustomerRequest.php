@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\InvoiceItem;
+namespace App\Http\Requests\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreInvoiceItemRequest extends FormRequest
+class StoreCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,10 @@ class StoreInvoiceItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'item_id' => 'required|exists:items,id',
-            'invoice_id' => 'required|exists:invoices,id',
-            'net_price' => 'required|numeric|gt:0',
-            'sell_price' => 'required|numeric|gt:0',
-            'quantity' => 'required|numeric|gt:0',
+            'firstname' => 'required|string|min:3',
+            'lastname' => 'required|string|min:3',
+            'phonenumber' => 'required|phone:SY|unique:customers,id',
+            'address' => 'required|string|min:4',
         ];
     }
 }

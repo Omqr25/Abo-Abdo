@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\InvoiceItem;
+namespace App\Http\Requests\InvoiceGroup;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateInvoiceItemRequest extends FormRequest
+class StoreInvoiceGroupRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,11 @@ class UpdateInvoiceItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'item_id' => 'exists:items,id',
-            'invoice_id' => 'exists:invoices,id',
-            'net_price' => 'numeric|gt:0',
-            'sell_price' => 'numeric|gt:0',
-            'quantity' => 'numeric|gt:0',
+            'group_id' => 'required|exists:groups,id',
+            'invoice_id' => 'required|exists:invoices,id',
+            'net_price' => 'required|numeric|gt:0',
+            'sell_price' => 'required|numeric|gt:0',
+            'quantity' => 'required|numeric|gt:0',
         ];
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\InvoiceGroup;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UpdateInvoiceGroupRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,11 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'firstname' => 'string|min:4',
-            'lastname' => 'string|min:4',
-            'address' => 'string',
-            'phonenumbers' => 'numeric|unique:users,phonenumbers',
-            'mobilenumbers' => 'numeric|phone:SY|unique:users,mobilenumbers',
-            'socialaccounts' => 'url',
+            'group_id' => 'exists:groups,id',
+            'invoice_id' => 'exists:invoices,id',
+            'net_price' => 'numeric|gt:0',
+            'sell_price' => 'numeric|gt:0',
+            'quantity' => 'numeric|gt:0',
         ];
     }
 }

@@ -23,8 +23,7 @@ class UpdateItemRequest extends FormRequest
     {
         return [
             'name' => 'string|min:4',
-            'description' => 'string',
-            'color' => [new Enum(ItemColor::class)],
+            'sizes' => 'string',
             'group_id' => 'exists:groups,id'
         ];
     }

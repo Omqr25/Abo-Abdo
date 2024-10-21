@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\isValidURL;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -22,10 +23,14 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|string|min:3',
-            'phone'=>'required|phone:SY|unique:users,phone',
-            'password'=>'required|confirmed|min:8',
-            'address'=>'string',
+            'firstname' => 'required|string|min:3',
+            'lastname' => 'required|string|min:3',
+            'email' => 'required|email|string|unique:users,email',
+            'password' => 'required|confirmed|min:8',
+            'address' => 'string',
+            'phonenumbers' => 'numeric|unique:users,phonenumbers',
+            'mobilenumbers' => 'numeric|phone:SY|unique:users,mobilenumbers',
+            'socialaccounts' => new isValidURL,
         ];
     }
 }

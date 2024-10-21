@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,10 +18,11 @@ class InvoiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::all()->random()->id,
+            'customer_id' => Customer::all()->random()->id,
             'notes' => fake()->text,
             'with_delivery' => fake()->boolean(),
-            'total_price' => fake()->randomNumber(), // mt_rand(1, 9999999)
+            'total_net_price' => fake()->randomNumber(), // mt_rand(1, 9999999)
+            'total_sell_price' => mt_rand(1, 9999999), // mt_rand(1, 9999999)
         ];
     }
 }

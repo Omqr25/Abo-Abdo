@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class InvoiceItemResource extends JsonResource
+class InvoiceGroupResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +16,7 @@ class InvoiceItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'item_id' => $this->item_id,
+            'group_id' => $this->group_id,
             'invoice_id' => $this->invoice_id,
             'net_price' => $this->net_price,
             'sell_price' => $this->sell_price,

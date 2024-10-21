@@ -5,7 +5,7 @@ use App\Http\Controllers\API\EmployeeController;
 use App\Http\Controllers\API\ExpenseController;
 use App\Http\Controllers\API\GroupController;
 use App\Http\Controllers\API\InvoiceController;
-use App\Http\Controllers\API\InvoiceItemController;
+use App\Http\Controllers\API\InvoiceGroupController;
 use App\Http\Controllers\API\ItemController;
 use App\Http\Controllers\API\MediaController;
 use App\Http\Controllers\API\UserController;
@@ -48,7 +48,7 @@ Route::controller(InvoiceController::class)->prefix('invoices')->group(function 
     Route::post('restore', 'restore');
 });
 
-Route::controller(InvoiceItemController::class)->prefix('invoiceitems')->group(function () {
+Route::controller(InvoiceGroupController::class)->prefix('invoicegroups')->group(function () {
     Route::get('show_deleted', 'showDeleted');
     Route::post('restore', 'restore');
 });
@@ -58,13 +58,13 @@ Route::controller(UserController::class)->prefix('users')->group(function () {
     Route::post('restore', 'restore');
 });
 
-Route::apiResources([ 
+Route::apiResources([
     'classifications' => ClassificationController::class,
     'groups' => GroupController::class,
     'items' => ItemController::class,
     'media' => MediaController::class,
     'invoices' => InvoiceController::class,
-    'invoiceitems' => InvoiceItemController::class,
+    'invoicegroups' => InvoiceGroupController::class,
     'expenses' => ExpenseController::class,
     'employees' => EmployeeController::class,
     'users' => UserController::class,

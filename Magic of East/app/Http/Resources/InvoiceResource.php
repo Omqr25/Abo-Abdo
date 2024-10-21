@@ -16,13 +16,14 @@ class InvoiceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => [
-                'id' => $this->user_id,
-                'name' => $this->user->name ?? null,
+            'customer' => [
+                'id' => $this->customer_id,
+                'name' => $this->customer->name ?? null,
             ],
             'notes' => $this->notes,
             'with_delivery' => $this->with_delivery,
-            'total_price' =>$this->total_price,
+            'total_net_price' =>$this->total_net_price,
+            'total_sell_price' =>$this->total_sell_price,
         ];
     }
 }

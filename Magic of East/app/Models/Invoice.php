@@ -15,17 +15,17 @@ class Invoice extends Model
 
     protected $fillable = [ 
         'customer_id',
+        'notes',
         'with_delivery',
         'total_net_price',
         'total_sell_price',
-        'notes',
     ];
 
-    public function group(): BelongsToMany
+    public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(Item::class);
+        return $this->belongsToMany(Group::class);
     }
-    public function invoicegroup(): HasMany
+    public function invoiceGroups(): HasMany
     {
         return $this->hasMany(InvoiceGroup::class);
     }

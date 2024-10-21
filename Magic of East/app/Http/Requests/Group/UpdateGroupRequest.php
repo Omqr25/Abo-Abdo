@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Group;
 
+use App\Enums\ItemColor;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateGroupRequest extends FormRequest
 {
@@ -23,7 +25,9 @@ class UpdateGroupRequest extends FormRequest
     {
         return [
             'name' => 'string|min:4',
-            'classification_id' => 'exists:classifications,id'
+            'description' => 'string|min:3',
+            'color' => [new Enum(ItemColor::class)],
+            'classification_id' => 'exists:classifications,id',
         ];
     }
 }

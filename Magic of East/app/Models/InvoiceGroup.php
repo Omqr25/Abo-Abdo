@@ -12,8 +12,8 @@ class InvoiceGroup extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'invoice_id',
         'group_id',
+        'invoice_id',
         'net_price',
         'sell_price',
         'quantity',
