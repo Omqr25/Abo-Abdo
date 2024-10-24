@@ -17,8 +17,6 @@ class Employee extends Model
         'address',
         'position',
         'salary',
-        'reward',
-        'deduction',
     ];
 
     public function rewards(): HasMany

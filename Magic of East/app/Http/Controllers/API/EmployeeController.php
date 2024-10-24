@@ -3,49 +3,71 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Employee;
 use App\Http\Requests\Employee\StoreEmployeeRequest;
 use App\Http\Requests\Employee\UpdateEmployeeRequest;
+use App\Http\Interfaces\EmployeeRepositoryInterface;
+use App\Http\Resources\EmployeeResource;
+use App\Models\Employee;
+use App\Trait\ApiResponse;
+use Throwable;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use ApiResponse;
+    private $employeeRepository;    
+     public function __construct(EmployeeRepositoryInterface $employeeRepository)
+     {
+         $this->employeeRepository = $employeeRepository;
+     }
     public function index()
     {
-        //
+        try {
+            $data = $this->employeeRepository->index();
+            return $this->SuccessMany($data, EmployeeResource::class, 'Employees indexed successfully');
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreEmployeeRequest $request)
     {
-        //
+        try {
+            $validated = $request->validated();
+            $data = $this->employeeRepository->store($validated);
+            return $this->SuccessOne($data, EmployeeResource::class, 'Employee created successfully');
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Employee $employee)
+    public function show($id)
     {
-        //
+        try {
+            $data = $this->employeeRepository->show($id);
+            return $this->SuccessOne($data, EmployeeResource::class, 'Successful');
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, $id)
     {
-        //
+        try {
+            $validated = $request->validated();
+            $data = $this->employeeRepository->update($id, $validated);
+            return $this->SuccessOne($data, EmployeeResource::class, 'Employee updated successfully');
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage());
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Employee $employee)
+    public function destroy($id)
     {
-        //
+        try {
+            $this->employeeRepository->destroy($id);
+            return $this->SuccessOne(null, null, 'Employee deleted successfully');
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage(), 404);
+        }
     }
 }

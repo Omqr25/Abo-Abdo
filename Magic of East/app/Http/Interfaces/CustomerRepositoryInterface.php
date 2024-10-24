@@ -2,7 +2,7 @@
 
 namespace App\Http\Interfaces;
 
-interface CustomerRepositoryInterface
+interface CustomerRepositoryInterface extends BaseRepositoryInterface
 {
     
 }

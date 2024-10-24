@@ -26,7 +26,7 @@ class InvoiceGroupController extends Controller
     {
         try {
             $data = $this->invoiceGroupRepository->index();
-            return $this->SuccessMany($data, null, 'Invoice groups indexed successfully');
+            return $this->SuccessMany($data, InvoiceGroupResource::class, 'Invoice groups indexed successfully');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());
         }

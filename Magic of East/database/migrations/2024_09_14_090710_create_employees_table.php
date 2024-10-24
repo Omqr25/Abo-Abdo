@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('position');
             $table->Integer('salary');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

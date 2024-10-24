@@ -13,7 +13,7 @@ trait ApiResponse
         $response = array_merge(['data' => $data], $response);
         return response()->json($response, $code);
     }
-    protected function SuccessOne($data, $resource = null, $message = 'Success', $code = 200): JsonResponse
+    protected function SuccessOne($data, $resource, $message = 'Success', $code = 200): JsonResponse
     {
         if ($resource) {
             $data = new $resource($data);
@@ -24,8 +24,8 @@ trait ApiResponse
     protected function SuccessMany($data, $resource, $message = 'Success', $code = 200): JsonResponse
     {
         $paginationMeta = $this->getPaginationMeta($data);
-        $response = $resource ? $resource::collection($data) : $data;
-        return $this->response($response, $message, $code, $paginationMeta);
+        $response = $resource::collection($data);
+        return $this->response($response , $message, $code,$paginationMeta );
     }
 
     protected function getPaginationMeta($paginator): array

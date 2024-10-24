@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Group;
 use App\Models\Invoice;
 use App\Models\Item;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -19,7 +20,7 @@ class InvoiceGroupFactory extends Factory
     public function definition(): array
     {
         return [
-            'group_id' => Item::all()->random()->id,
+            'group_id' => Group::all()->random()->id,
             'invoice_id' => Invoice::all()->random()->id,
             'net_price' => mt_rand(1,1000),
             'sell_price' => mt_rand(1,1000),

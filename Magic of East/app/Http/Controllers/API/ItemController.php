@@ -27,7 +27,7 @@ class ItemController extends Controller
     {
         try {
             $data = $this->itemRepository->index();
-            return $this->SuccessMany($data, null, 'Items indexed successfully');
+            return $this->SuccessMany($data, ItemResource::class, 'Items indexed successfully');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());
         }

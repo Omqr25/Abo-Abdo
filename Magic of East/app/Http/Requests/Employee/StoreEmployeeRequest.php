@@ -22,7 +22,12 @@ class StoreEmployeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+           'firstname' => 'required|string|max:255',  
+            'lastname' => 'required|string|max:255',  
+            'phonenumber' => 'required|string|max:15',
+            'address' => 'required|string|max:255',  
+            'position' => 'required|string|max:255',  
+            'salary' => 'required|numeric|min:0',    
         ];
     }
 }
