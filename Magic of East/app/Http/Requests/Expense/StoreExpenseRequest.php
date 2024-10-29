@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Expense;
 
+use App\Enums\ExpenseType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreExpenseRequest extends FormRequest
 {
@@ -22,7 +24,9 @@ class StoreExpenseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => "required|string|min:2",
+            'cost' => 'required|numeric|min:0',
+            'type' => ['required',new Enum(ExpenseType::class)],
         ];
     }
 }

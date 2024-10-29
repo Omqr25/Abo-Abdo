@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Expense;
 
+use App\Enums\ExpenseType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateExpenseRequest extends FormRequest
 {
@@ -22,7 +24,9 @@ class UpdateExpenseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => "string|min:2",
+            'cost' => 'numeric|min:0',
+            'type' => [new Enum(ExpenseType::class)],
         ];
     }
 }

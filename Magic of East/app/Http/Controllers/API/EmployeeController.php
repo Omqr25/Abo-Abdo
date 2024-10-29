@@ -14,11 +14,11 @@ use Throwable;
 class EmployeeController extends Controller
 {
     use ApiResponse;
-    private $employeeRepository;    
-     public function __construct(EmployeeRepositoryInterface $employeeRepository)
-     {
-         $this->employeeRepository = $employeeRepository;
-     }
+    private $employeeRepository;
+    public function __construct(EmployeeRepositoryInterface $employeeRepository)
+    {
+        $this->employeeRepository = $employeeRepository;
+    }
     public function index()
     {
         try {
