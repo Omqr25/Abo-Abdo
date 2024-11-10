@@ -17,12 +17,12 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
         parent::__construct($model);
     }
 
-    public function getMonthlyWarehouseExpenses()
+    public function getMonthlyWarehouseExpenses($type)
     {
 
         $currentYear = now()->year;
         $currentMonth = now()->month;
-        $monthlyExpenses = $this->model::where('type', 1)
+        $monthlyExpenses = $this->model::where('type', $type)
             ->select('name', 'cost', DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'))
             ->orderBy('year', 'asc')
             ->orderBy('month', 'asc')

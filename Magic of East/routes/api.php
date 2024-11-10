@@ -66,7 +66,7 @@ Route::controller(UserController::class)->prefix('users')->group(function () {
 });
 
 Route::controller(ExpenseController::class)->prefix('expenses')->group(function () {
-    Route::get('getMonthlyWarehouseExpenses', 'getMonthlyWarehouseExpenses');
+    Route::get('getMonthlyWarehouseExpenses/{type}', 'getMonthlyWarehouseExpenses');
     Route::get('getMonthlyEmployersExpenses', 'getMonthlyEmployersExpenses');
 });
 
