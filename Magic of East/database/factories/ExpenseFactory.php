@@ -21,7 +21,6 @@ class ExpenseFactory extends Factory
             "name" => $this->faker->name,
             "cost" => $this->faker->numberBetween(0, 2000000),
             "type" => $this->faker->randomElement(ExpenseType::class),
-            "number" => $this->faker->numberBetween(0,0),
         ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AdditionalController;
 use App\Http\Controllers\API\ClassificationController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\EmployeeController;
@@ -80,4 +81,5 @@ Route::apiResources([
     'expenses' => ExpenseController::class,
     'employees' => EmployeeController::class,
     'users' => UserController::class,
+    'additionals' => AdditionalController::class
 ]);
