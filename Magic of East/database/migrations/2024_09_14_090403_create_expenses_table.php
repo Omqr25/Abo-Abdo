@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('name');
             $table->bigInteger('cost');
             $table->enum('type', [ExpenseType::WareHouseExpense->value, ExpenseType::WareHouseRent->value, ExpenseType::tax->value]);
-            $table->bigInteger('number')->nullable();
             $table->timestamps();
         });
     }

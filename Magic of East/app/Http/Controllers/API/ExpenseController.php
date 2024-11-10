@@ -88,4 +88,25 @@ class ExpenseController extends Controller
             return $this->Error(null, $th->getMessage(), 404);
         }
     }
+
+    public function getMonthlyWarehouseExpenses()
+    {
+
+        try {
+            $data = $this->expenseRepository->getMonthlyWarehouseExpenses();
+            return $this->SuccessOne($data, null, 'Success');
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage(), 404);
+        }
+    }
+
+    public function getMonthlyEmployersExpenses()
+    {
+        try {
+            $data = $this->expenseRepository->getMonthlyEmployersExpenses();
+            return $this->SuccessOne($data, null, 'Success');
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage(), 404);
+        }
+    }
 }

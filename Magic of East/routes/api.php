@@ -21,7 +21,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('logout', 'logout');
 });
 
-Route::get('/',function(){
+Route::get('/', function () {
     return 'hello from api';
 });
 
@@ -62,6 +62,11 @@ Route::controller(InvoiceGroupController::class)->prefix('invoicegroups')->group
 Route::controller(UserController::class)->prefix('users')->group(function () {
     Route::get('show_deleted', 'showDeleted');
     Route::post('restore', 'restore');
+});
+
+Route::controller(ExpenseController::class)->prefix('expenses')->group(function () {
+    Route::get('getMonthlyWarehouseExpenses', 'getMonthlyWarehouseExpenses');
+    Route::get('getMonthlyEmployersExpenses', 'getMonthlyEmployersExpenses');
 });
 
 Route::apiResources([
