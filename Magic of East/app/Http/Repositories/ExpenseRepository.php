@@ -2,12 +2,9 @@
 
 namespace App\Http\Repositories;
 
-use App\Enums\EmployerExpenseType;
 use App\Http\Interfaces\ExpenseRepositoryInterface;
-use App\Models\Additional;
 use App\Models\Employee;
 use App\Models\Expense;
-use App\Models\RewardDeduction;
 use Illuminate\Support\Facades\DB;
 
 class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInterface
@@ -17,13 +14,14 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
         parent::__construct($model);
     }
 
+    // get the total expenses for all monthes from the oldest expense till now
     public function getMonthlyWarehouseExpenses($type)
     {
-
         $currentYear = now()->year;
         $currentMonth = now()->month;
         $monthlyExpenses = $this->model::where('type', $type)
-            ->select('name', 'cost', DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'))
+            ->select(DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'), DB::raw('SUM(cost) as total'))
+            ->groupBy('year', 'month')
             ->orderBy('year', 'asc')
             ->orderBy('month', 'asc')
             ->get();
@@ -33,29 +31,27 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
 
         for ($year = $startYear; $year <= $currentYear; $year++) {
             for ($month = $year == $startYear ? $startMonth : 1; $month <= ($year == $currentYear ? $currentMonth : 12); $month++) {
-                $monthlyDetails = $monthlyExpenses->filter(function ($expense) use ($year, $month) {
-                    return $expense->year == $year && $expense->month == $month;
-                });
                 $total = 0;
-                $details = [];
-                foreach ($monthlyDetails as $expense) {
-                    $total += $expense->cost;
-                    $details[] = [
-                        'name' => $expense->name,
-                        'cost' => $expense->cost,
-                    ];
+                if ($monthlyExpenses->where('month', $month)->where('year', $year)->first->total != null) {
+                    $total = $monthlyExpenses->where('month', $month)->where('year', $year)->first()->total;
                 }
                 $results[] = [
                     'year' => $year,
                     'month' => $month,
                     'total' => $total,
-                    'details' => $details,
                 ];
             }
         }
         return $results;
     }
 
+    // get the details of the total expenses for a specific month
+    public function getExpenseDetails($type, $month, $year)
+    {
+        return  Expense::where('type', $type)->whereMonth('created_at', $month)->whereYear('created_at', $year)->select('name', 'cost')->get();
+    }
+
+    // get the totla Employers expenses including the rewards and deductions for each employee 
     public function getMonthlyEmployersExpenses()
     {
         $currentYear = now()->year;

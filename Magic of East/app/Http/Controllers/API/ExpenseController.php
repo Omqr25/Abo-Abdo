@@ -109,4 +109,14 @@ class ExpenseController extends Controller
             return $this->Error(null, $th->getMessage(), 404);
         }
     }
+
+    public function getExpenseDetails($type, $month, $year)
+    {
+        try {
+            $data = $this->expenseRepository->getExpenseDetails($type, $month, $year);
+            return $this->SuccessOne($data, null, 'Success');
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage(), 404);
+        }
+    }
 }
