@@ -10,6 +10,7 @@ use App\Http\Controllers\API\InvoiceController;
 use App\Http\Controllers\API\InvoiceGroupController;
 use App\Http\Controllers\API\ItemController;
 use App\Http\Controllers\API\MediaController;
+use App\Http\Controllers\API\ReportsController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -69,6 +70,10 @@ Route::controller(ExpenseController::class)->prefix('expenses')->group(function 
     Route::get('getMonthlyWarehouseExpenses/{type}', 'getMonthlyWarehouseExpenses');
     Route::get('getExpenseDetails/{type}/{month}/{year}', 'getExpenseDetails');
     Route::get('getMonthlyEmployersExpenses', 'getMonthlyEmployersExpenses');
+});
+
+Route::controller(ReportsController::class)->prefix('reports')->group(function () {
+    Route::get('lastyearearnings', 'LastYearEarnings');
 });
 
 Route::apiResources([

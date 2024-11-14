@@ -48,7 +48,7 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
     // get the details of the total expenses for a specific month
     public function getExpenseDetails($type, $month, $year)
     {
-        return  Expense::where('type', $type)->whereMonth('created_at', $month)->whereYear('created_at', $year)->select('name', 'cost')->get();
+        return  Expense::where('type', $type)->whereMonth('created_at', $month)->whereYear('created_at', $year)->select('name', 'cost')->simplePaginate(10);
     }
 
     // get the totla Employers expenses including the rewards and deductions for each employee 
