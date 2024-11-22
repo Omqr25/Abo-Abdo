@@ -74,6 +74,7 @@ Route::controller(ExpenseController::class)->prefix('expenses')->group(function 
 
 Route::controller(ReportsController::class)->prefix('reports')->group(function () {
     Route::get('lastyearearnings', 'LastYearEarnings');
+    Route::get('monthlyreport/{month}/{year}', 'MonthlyReport');
 });
 
 Route::apiResources([

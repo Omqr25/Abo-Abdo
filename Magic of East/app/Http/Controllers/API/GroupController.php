@@ -37,6 +37,7 @@ class GroupController extends Controller
     {
         try {
             $validated = $request->validated();
+            $validated['workshop_id'] = 1;
             if (!(Classification::find($validated['classification_id'])))
                 return $this->Error(null, 'Classification not found', 404);
             $data = $this->groupRepository->store($validated);

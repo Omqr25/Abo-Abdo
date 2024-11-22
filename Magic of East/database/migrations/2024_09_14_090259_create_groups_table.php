@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('color');
             $table->foreignId('classification_id')->references('id')->on('classifications')->onDelete('cascade');
+            $table->foreignId('workshop_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -12,36 +12,42 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {
-    use HasFactory, SoftDeletes;
+  use HasFactory, SoftDeletes;
 
-    protected $fillable=[
-        'name',
-        'description',
-        'color',  
-        'classification_id',
-      ];
+  protected $fillable = [
+    'name',
+    'description',
+    'color',
+    'classification_id',
+    'workshop_id'
+  ];
 
-      protected $casts = [
-        'color' => ItemColor::class,
-    ];
+  protected $casts = [
+    'color' => ItemColor::class,
+  ];
 
-      public function classification(): BelongsTo
-    {
-      return $this->belongsTo(Classification::class);
-    }
+  public function classification(): BelongsTo
+  {
+    return $this->belongsTo(Classification::class);
+  }
 
-    public function items(): HasMany
-    {
-      return $this->hasMany(Item::class);
-    }
+  public function items(): HasMany
+  {
+    return $this->hasMany(Item::class);
+  }
 
-    public function invoiceGroups(): HasMany
-    {
-      return $this->hasMany(InvoiceGroup::class);
-    }
+  public function invoiceGroups(): HasMany
+  {
+    return $this->hasMany(InvoiceGroup::class);
+  }
 
-    public function invoices(): BelongsToMany
-    {
-        return $this->belongsToMany(Invoice::class);
-    }
+  public function invoices(): BelongsToMany
+  {
+    return $this->belongsToMany(Invoice::class);
+  }
+
+  public function workshop(): BelongsTo
+  {
+    return $this->belongsTo(Workshop::class);
+  }
 }

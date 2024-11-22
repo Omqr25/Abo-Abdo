@@ -23,6 +23,7 @@ class GroupFactory extends Factory
             'description' => fake()->text(20),
             'color' => $this->faker->randomElement(ItemColor::class),
             'classification_id' => Classification::all()->random()->id,
+            'workshop_id' => 1,
         ];
     }
 }
