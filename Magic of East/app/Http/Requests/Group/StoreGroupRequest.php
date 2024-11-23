@@ -28,6 +28,8 @@ class StoreGroupRequest extends FormRequest
             'description' => 'required|string|min:3',
             'color' => ['required', new Enum(ItemColor::class)],
             'classification_id' => 'required|exists:classifications,id',
+            'items' => 'array',
+            'images' => 'array',
         ];
     }
 }

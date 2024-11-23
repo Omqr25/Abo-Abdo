@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,6 +19,23 @@ class Employee extends Model
         'position',
         'salary',
     ];
+
+    public function scopeName(Builder $query, $value): Builder
+    {
+        return $query->whereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", "%$value%");
+    }
+
+    // public function scopeAddress(Builder $query, $value): Builder
+    // {
+    //   $addresses = Address::getAddressMap();
+    //   return $query->where('address', $addresses[$value]);
+    // }
+
+    // public function scopePosition(Builder $query, $value): Builder
+    // {
+    //   $positions = Position::getPositionMap();
+    //   return $query->where('position', $positions[$value]);
+    // }
 
     public function rewards(): HasMany
     {

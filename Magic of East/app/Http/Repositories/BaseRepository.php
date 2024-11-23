@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Http\Interfaces\BaseRepositoryInterface;
+use App\Http\Services\Filter\FilterService;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,10 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function index()
     {
+        if(request()->has('filter') || request()->has('sort')){
+            $func = class_basename($this->model);
+            return FilterService::$func();
+        }
         return $this->model::simplePaginate(10);
     }
 

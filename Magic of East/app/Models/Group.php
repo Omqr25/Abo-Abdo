@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ItemColor;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,6 +26,12 @@ class Group extends Model
         'color' => ItemColor::class,
     ];
 
+    public function scopeColor(Builder $query, $value): Builder
+    {
+      $colors = ItemColor::getColorMap();
+      return $query->where('color', $colors[$value]);
+    }
+
       public function classification(): BelongsTo
     {
       return $this->belongsTo(Classification::class);
@@ -43,5 +50,9 @@ class Group extends Model
     public function invoices(): BelongsToMany
     {
         return $this->belongsToMany(Invoice::class);
+    }
+    public function media(): HasMany
+    {
+        return $this->hasMany(Media::class);
     }
 }

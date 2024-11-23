@@ -44,6 +44,13 @@ Route::controller(ItemController::class)->prefix('items')->group(function () {
     Route::post('restore', 'restore');
 });
 
+Route::controller(MediaController::class)->prefix('media')->group(function(){
+    Route::get('index/{group}','index');
+    Route::get('show/{name}','show');
+    Route::post('upload','upload');
+    Route::post('delete', 'delete');
+});
+
 Route::controller(CustomerController::class)->prefix('customers')->group(function () {
     Route::get('show_deleted', 'showDeleted');
     Route::post('restore', 'restore');
@@ -68,7 +75,6 @@ Route::apiResources([
     'classifications' => ClassificationController::class,
     'groups' => GroupController::class,
     'items' => ItemController::class,
-    'media' => MediaController::class,
     'customers' => CustomerController::class,
     'invoices' => InvoiceController::class,
     'invoicegroups' => InvoiceGroupController::class,

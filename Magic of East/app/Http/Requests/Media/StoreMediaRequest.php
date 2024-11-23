@@ -11,7 +11,7 @@ class StoreMediaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreMediaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'group_id' => 'required|exists:groups,id',
+            'image' => 'required|image|mimes:png,jpg,jpeg|max:10240',
         ];
     }
 }
