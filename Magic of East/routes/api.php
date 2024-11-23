@@ -31,62 +31,76 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::controller(ClassificationController::class)->prefix('classifications')->group(function () {
-    Route::get('show_deleted', 'showDeleted');
-    Route::post('restore', 'restore');
-});
+Route::middleware('auth:sanctum')->group(function () {
+    Route::controller(ClassificationController::class)->prefix('classifications')->group(function () {
+        Route::get('', 'index')->withoutMiddleware('auth:sanctum');
+        Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');
+        Route::post('', 'store');
+        Route::put('/{id}', 'update');
+        Route::delete('/{id}', 'destroy');
+        Route::get('show_deleted', 'showDeleted');
+        Route::post('restore', 'restore');
+    });
 
-Route::controller(GroupController::class)->prefix('groups')->group(function () {
-    Route::get('show_deleted', 'showDeleted');
-    Route::post('restore', 'restore');
-});
+    Route::controller(GroupController::class)->prefix('groups')->group(function () {
+        Route::get('', 'index')->withoutMiddleware('auth:sanctum');
+        Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');
+        Route::post('', 'store');
+        Route::put('/{id}', 'update');
+        Route::delete('/{id}', 'destroy');
+        Route::get('show_deleted', 'showDeleted');
+        Route::post('restore', 'restore');
+    });
 
-Route::controller(ItemController::class)->prefix('items')->group(function () {
-    Route::get('show_deleted', 'showDeleted');
-    Route::post('restore', 'restore');
-});
+    Route::controller(ItemController::class)->prefix('items')->group(function () {
+        Route::get('', 'index')->withoutMiddleware('auth:sanctum');
+        Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');
+        Route::post('', 'store');
+        Route::put('/{id}', 'update');
+        Route::delete('/{id}', 'destroy');
+        Route::get('show_deleted', 'showDeleted');
+        Route::post('restore', 'restore');
+    });
 
-Route::controller(CustomerController::class)->prefix('customers')->group(function () {
-    Route::get('show_deleted', 'showDeleted');
-    Route::post('restore', 'restore');
-});
+    Route::controller(CustomerController::class)->prefix('customers')->group(function () {
+        Route::get('show_deleted', 'showDeleted');
+        Route::post('restore', 'restore');
+    });
 
-Route::controller(InvoiceController::class)->prefix('invoices')->group(function () {
-    Route::get('show_deleted', 'showDeleted');
-    Route::post('restore', 'restore');
-});
+    Route::controller(InvoiceController::class)->prefix('invoices')->group(function () {
+        Route::get('show_deleted', 'showDeleted');
+        Route::post('restore', 'restore');
+    });
 
-Route::controller(InvoiceGroupController::class)->prefix('invoicegroups')->group(function () {
-    Route::get('show_deleted', 'showDeleted');
-    Route::post('restore', 'restore');
-});
+    Route::controller(InvoiceGroupController::class)->prefix('invoicegroups')->group(function () {
+        Route::get('show_deleted', 'showDeleted');
+        Route::post('restore', 'restore');
+    });
 
-Route::controller(UserController::class)->prefix('users')->group(function () {
-    Route::get('show_deleted', 'showDeleted');
-    Route::post('restore', 'restore');
-});
+    Route::controller(UserController::class)->prefix('users')->group(function () {
+        Route::get('show_deleted', 'showDeleted');
+        Route::post('restore', 'restore');
+    });
 
-Route::controller(ExpenseController::class)->prefix('expenses')->group(function () {
-    Route::get('getMonthlyWarehouseExpenses/{type}', 'getMonthlyWarehouseExpenses');
-    Route::get('getExpenseDetails/{type}/{month}/{year}', 'getExpenseDetails');
-    Route::get('getMonthlyEmployersExpenses', 'getMonthlyEmployersExpenses');
-});
+    Route::controller(ExpenseController::class)->prefix('expenses')->group(function () {
+        Route::get('getMonthlyWarehouseExpenses/{type}', 'getMonthlyWarehouseExpenses');
+        Route::get('getExpenseDetails/{type}/{month}/{year}', 'getExpenseDetails');
+        Route::get('getMonthlyEmployersExpenses', 'getMonthlyEmployersExpenses');
+    });
 
-Route::controller(ReportsController::class)->prefix('reports')->group(function () {
-    Route::get('lastyearearnings', 'LastYearEarnings');
-    Route::get('monthlyreport/{month}/{year}', 'MonthlyReport');
-});
+    Route::controller(ReportsController::class)->prefix('reports')->group(function () {
+        Route::get('lastyearearnings', 'LastYearEarnings');
+        Route::get('monthlyreport/{month}/{year}', 'MonthlyReport');
+    });
 
-Route::apiResources([
-    'classifications' => ClassificationController::class,
-    'groups' => GroupController::class,
-    'items' => ItemController::class,
-    'media' => MediaController::class,
-    'customers' => CustomerController::class,
-    'invoices' => InvoiceController::class,
-    'invoicegroups' => InvoiceGroupController::class,
-    'expenses' => ExpenseController::class,
-    'employees' => EmployeeController::class,
-    'users' => UserController::class,
-    'additionals' => AdditionalController::class
-]);
+    Route::apiResources([
+        'media' => MediaController::class,
+        'customers' => CustomerController::class,
+        'invoices' => InvoiceController::class,
+        'invoicegroups' => InvoiceGroupController::class,
+        'expenses' => ExpenseController::class,
+        'employees' => EmployeeController::class,
+        'users' => UserController::class,
+        'additionals' => AdditionalController::class
+    ]);
+});
