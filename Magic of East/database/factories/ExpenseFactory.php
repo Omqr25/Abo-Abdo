@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ExpenseType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class ExpenseFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            "name" => $this->faker->name,
+            "cost" => $this->faker->numberBetween(0, 2000000),
+            "type" => $this->faker->randomElement(ExpenseType::class),
         ];
     }
 }

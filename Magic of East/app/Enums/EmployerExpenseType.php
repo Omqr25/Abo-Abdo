@@ -2,8 +2,8 @@
 
 namespace App\Enums;
 
-enum EmployerExpenseType : string
+enum EmployerExpenseType: int
 {
-    case reward = "reward";
-    case deduction = "deduction";
+    case reward = 1;
+    case deduction = 2;
 }

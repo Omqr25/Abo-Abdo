@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Interfaces\AdditionalRepositoryInterface;
 use App\Http\Interfaces\BaseRepositoryInterface;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Interfaces\ClassificationRepositoryInterface;
@@ -12,13 +13,16 @@ use App\Http\Interfaces\GroupRepositoryInterface;
 use App\Http\Repositories\GroupRepository;
 use App\Http\Interfaces\CustomerRepositoryInterface;
 use App\Http\Interfaces\EmployeeRepositoryInterface;
+use App\Http\Interfaces\ExpenseRepositoryInterface;
 use App\Http\Repositories\CustomerRepository;
 use App\Http\Interfaces\InvoiceGroupRepositoryInterface;
 use App\Http\Repositories\InvoiceGroupRepository;
 use App\Http\Interfaces\InvoiceRepositoryInterface;
 use App\Http\Repositories\InvoiceRepository;
 use App\Http\Interfaces\UserRepositoryInterface;
+use App\Http\Repositories\AdditionalRepository;
 use App\Http\Repositories\EmployeeRepository;
+use App\Http\Repositories\ExpenseRepository;
 use App\Http\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -38,6 +42,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(InvoiceGroupRepositoryInterface::class, InvoiceGroupRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(EmployeeRepositoryInterface::class, EmployeeRepository::class);
+        $this->app->bind(ExpenseRepositoryInterface::class, ExpenseRepository::class);
+        $this->app->bind(AdditionalRepositoryInterface::class, AdditionalRepository::class);
     }
 
     /**
