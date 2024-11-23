@@ -101,7 +101,6 @@ Route::controller(MediaController::class)->prefix('media')->group(function(){
     });
 
     Route::apiResources([
-        'media' => MediaController::class,
         'customers' => CustomerController::class,
         'invoices' => InvoiceController::class,
         'invoicegroups' => InvoiceGroupController::class,
