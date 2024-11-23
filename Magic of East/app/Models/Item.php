@@ -14,20 +14,22 @@ class Item extends Model
 
     protected $fillable = [
         'name',
-        'sizes',
+        'height',
+        'width',
+        'depth',
         'group_id',
     ];
 
-    protected $casts = [
-        'sizes' => 'array',
-    ];
+    // public function height(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn (string $value) => (float)$value/10,
+    //         set: fn (string $value) => (float)round($value,1)*10,
+    //     );
+    // }
 
     public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
-    }
-    public function media(): HasMany
-    {
-        return $this->hasMany(Media::class);
     }
 }

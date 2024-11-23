@@ -11,13 +11,12 @@ class Media extends Model
     use HasFactory;
 
     protected $fillable = [
-        'item_id',
+        'group_id',
         'path',
-        'type',
     ];
 
-    public function item(): BelongsTo
+    public function group(): BelongsTo
     {
-        return $this->belongsTo(Item::class);
+        return $this->belongsTo(Group::class);
     }
 }

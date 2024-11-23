@@ -14,16 +14,22 @@ class InvoiceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'customer' => [
                 'id' => $this->customer_id,
-                'name' => $this->customer->firstname ?? null,
+                'name' => ($this->customer->firstname . ' ' . $this->customer->lastname) ?? null,
             ],
             'notes' => $this->notes,
             'with_delivery' => $this->with_delivery,
-            'total_net_price' =>$this->total_net_price,
-            'total_sell_price' =>$this->total_sell_price,
+            'total_net_price' => $this->total_net_price,
+            'total_sell_price' => $this->total_sell_price,
         ];
+
+        if ($request->route()->getName() === 'invoices.show') {
+            $data['groups'] = GroupResource::collection($this->groups);
+        }
+
+        return $data;
     }
 }

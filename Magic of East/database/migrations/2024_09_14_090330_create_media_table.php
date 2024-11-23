@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('item_id')->constrained();
+            $table->foreignId('group_id')->constrained();
             $table->string('path');
-            $table->boolean('type');
             $table->timestamps();
         });
     }

@@ -23,7 +23,9 @@ class UpdateItemRequest extends FormRequest
     {
         return [
             'name' => 'string|min:4',
-            'sizes' => '',
+            'height' => 'numeric|gt:0',
+            'width' => 'numeric|gt:0',
+            'depth' => 'numeric|gt:0',
             'group_id' => 'exists:groups,id'
         ];
     }

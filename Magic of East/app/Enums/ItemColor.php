@@ -19,4 +19,9 @@ enum ItemColor: int
     case Beige = 13;
     case Gold = 14;
     case Brown = 15;
+
+    public static function getColorMap(): array
+    {
+        return array_column(self::cases(), 'value', 'name');
+    }
 }

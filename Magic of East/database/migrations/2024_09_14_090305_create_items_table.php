@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('sizes');
+            $table->integer('height');
+            $table->integer('width');
+            $table->integer('depth');
             $table->foreignId('group_id')->constrained();
             $table->timestamps();
             $table->softDeletes();

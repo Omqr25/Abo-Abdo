@@ -41,7 +41,7 @@ class GroupController extends Controller
             if (!(Classification::find($validated['classification_id'])))
                 return $this->Error(null, 'Classification not found', 404);
             $data = $this->groupRepository->store($validated);
-            return $this->SuccessOne($data, GroupResource::class, 'Group created successfully');
+            return $this->SuccessOne($data, null, 'Group created successfully');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());
         }

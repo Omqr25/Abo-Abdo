@@ -16,8 +16,8 @@ class InvoiceGroupResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'group_id' => $this->group_id,
-            'invoice_id' => $this->invoice_id,
+            'group' => new GroupResource($this->group),
+            'invoice' => new InvoiceResource($this->invoice),
             'net_price' => $this->net_price,
             'sell_price' => $this->sell_price,
             'quantity' => $this->quantity,

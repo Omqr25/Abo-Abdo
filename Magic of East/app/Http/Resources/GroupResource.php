@@ -15,7 +15,7 @@ class GroupResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
@@ -25,5 +25,10 @@ class GroupResource extends JsonResource
                 'name' => $this->classification->name ?? null,
             ],
         ];
+        if($request->route()->getName() === 'invoices.show'){
+            $data['pivot'] = ($this->pivot)->only('net_price','sell_price','quantity');
+        }
+
+        return $data;
     }
 }

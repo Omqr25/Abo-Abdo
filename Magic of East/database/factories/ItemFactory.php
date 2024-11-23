@@ -17,10 +17,11 @@ class ItemFactory extends Factory
      */
     public function definition(): array
     {
-        $sizes = ['small', 'medium', 'big'];
         return [
-            'name' => fake()->name,
-            'sizes' => $sizes[array_rand($sizes)],
+            'name'     => fake()->name,
+            'height'   => fake()->randomNumber(),
+            'width'    => fake()->randomNumber(),
+            'depth'    => fake()->randomNumber(),
             'group_id' => Group::all()->random()->id,
         ];
     }

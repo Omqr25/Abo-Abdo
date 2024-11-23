@@ -15,18 +15,28 @@ class ItemResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'name' => $this->name,
-            'sizes' => $this->sizes,
-            'group' => [
+            'size' => [
+                'height' => $this->height,
+                'width' => $this->width,
+                'depth' => $this->depth,
+            ],
+        ];
+
+
+        if($request->route()->getName() !== 'groups.store'){
+            $data['group'] = [
                 'id' => $this->group_id,
                 'name' => $this->group->name ?? null,
-            ],
-            'classification' => [
-                'id' => $this->group->classification->id,
+            ];
+            $data['classification'] = [
+                'id' => $this->group->classification->id ?? null,
                 'name' => $this->group->classification->name ?? null,
-            ]
-        ];
+            ];
+        }
+
+        return $data; 
     }
 }
