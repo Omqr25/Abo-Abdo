@@ -26,7 +26,7 @@ class InvoiceResource extends JsonResource
             'total_sell_price' => $this->total_sell_price,
         ];
 
-        if ($request->route()->getName() === 'invoices.show') {
+        if ($request->route()->getName() === 'invoices.index' || $request->route()->getName() === 'invoices.show') {
             $data['groups'] = GroupResource::collection($this->groups);
         }
 
