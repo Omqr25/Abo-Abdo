@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Repositories;
+
 use App\Http\Interfaces\GroupRepositoryInterface;
 use App\Http\Requests\Item\StoreItemRequest;
 use App\Http\Requests\Media\StoreMediaRequest;
@@ -19,15 +20,43 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
         parent::__construct($model);
     }
 
+    public function index()
+    {
+        $data = Group::with(['media', 'items'])->simplePaginate(10);
+        return $data;
+    }
+
     public function store($data)
     {
-        $group = Group::create($data);
+        if (isset($data['items'])) {
+            $itemss = $data['items'];
+            foreach ($itemss as $item) {
+                $item['group_id'] = 1;
+                (new StoreItemRequest($item))->validationData();
+            }
+        }
+        if (isset($data['images'])) {
+            $imagess = $data['images'];
+            foreach ($imagess as $image) {
+                $imagecopy = [];
+                $imagecopy['image'] = $image;
+                $imagecopy['group_id'] = 1;
+                (new StoreMediaRequest($imagecopy))->validationData();
+            }
+        }
+        $group = Group::create([
+            'name' => $data['name'],
+            'description' => $data['description'],
+            'colors' => json_encode($data['colors']),
+            'classification_id' => $data['classification_id'],
+            'workshop_id' => $data['workshop_id'],
+        ]);
         $items_data = [];
         $images_data = [];
 
-        if(isset($data['items'])){
+        if (isset($data['items'])) {
             $items = $data['items'];
-            foreach($items as $item){
+            foreach ($items as $item) {
                 $item['group_id'] = $group['id'];
                 $item_validated = (new StoreItemRequest($item))->validationData();
                 $createdItem = Item::create($item_validated);
@@ -35,14 +64,16 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             }
         }
 
-        if(isset($data['images'])){
+        if (isset($data['images'])) {
             $images = $data['images'];
             foreach ($images as $image) {
-                $image['group_id'] = $group['id'];
-                $image_validated = (new StoreMediaRequest($image))->validationData();
+                $imagecopy = [];
+                $imagecopy['image'] = $image;
+                $imagecopy['group_id'] =  $group['id'];
+                $image_validated =  (new StoreMediaRequest($imagecopy))->validationData();
                 $path = UploadImage::upload($image_validated['image']);
                 $createdImage = Media::create(['group_id' => $group['id'], 'path' => $path]);
-                $images_data[] = $createdImage->only('id','path');
+                $images_data[] = $createdImage->only('id', 'path');
             }
         }
 

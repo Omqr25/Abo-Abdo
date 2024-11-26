@@ -19,14 +19,17 @@ class GroupResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'color' => ($this->color instanceof ItemColor) ? $this->color->name : null,
-            'classification' => [
-                'id' => $this->classification_id,
-                'name' => $this->classification->name ?? null,
-            ],
+            'colors' => json_decode($this->colors, true),
+            'items' => ItemResource::collection($this->items),
+            'photos' =>  $this->media->map(function ($mediaItem) {
+                return [
+                    'id' => $mediaItem->id,
+                    'path' => $mediaItem->path,
+                ];
+            }),
         ];
-        if($request->route()->getName() === 'invoices.show'){
-            $data['pivot'] = ($this->pivot)->only('net_price','sell_price','quantity');
+        if ($request->route()->getName() === 'invoices.show') {
+            $data['pivot'] = ($this->pivot)->only('net_price', 'sell_price', 'quantity');
         }
 
         return $data;

@@ -26,10 +26,17 @@ class StoreGroupRequest extends FormRequest
         return [
             'name' => 'required|string|min:4',
             'description' => 'required|string|min:3',
-            'color' => ['required', new Enum(ItemColor::class)],
+            'colors' => 'required',
             'classification_id' => 'required|exists:classifications,id',
-            'items' => 'array',
-            'images' => 'array',
+            'items' => 'array|required',
+            'images' => 'array|required',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'colors.required' => 'حقل الالوان مطلوب',
+            'colors.array'    => 'الالوان يجب ان تكون مصفوفة',
         ];
     }
 }

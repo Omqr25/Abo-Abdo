@@ -28,7 +28,7 @@ class FilterService
         $data = QueryBuilder::for(Group::class)
             ->allowedFilters([
                 'name',
-                AllowedFilter::scope('color'),
+                // AllowedFilter::scope('color'),
                 AllowedFilter::custom('before', new CreatedDateFilter('before')),
                 AllowedFilter::custom('after', new CreatedDateFilter('after')),
                 AllowedFilter::exact('classification', 'classification_id'),
@@ -66,7 +66,7 @@ class FilterService
             ->simplePaginate(10);
         return $data;
     }
-    
+
     public static function invoice()
     {
         $data = QueryBuilder::for(Invoice::class)
@@ -95,7 +95,7 @@ class FilterService
             ->simplePaginate(10);
         return $data;
     }
-    
+
     public static function employee()
     {
         $data = QueryBuilder::for(Employee::class)

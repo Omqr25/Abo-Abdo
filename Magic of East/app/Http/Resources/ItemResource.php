@@ -18,7 +18,7 @@ class ItemResource extends JsonResource
         $data = [
             'id' => $this->id,
             'name' => $this->name,
-            'size' => [
+            'sizes' => [
                 'height' => $this->height,
                 'width' => $this->width,
                 'depth' => $this->depth,
@@ -26,17 +26,17 @@ class ItemResource extends JsonResource
         ];
 
 
-        if($request->route()->getName() !== 'groups.store'){
-            $data['group'] = [
-                'id' => $this->group_id,
-                'name' => $this->group->name ?? null,
-            ];
-            $data['classification'] = [
-                'id' => $this->group->classification->id ?? null,
-                'name' => $this->group->classification->name ?? null,
-            ];
-        }
+        // if ($request->route()->getName() !== 'groups.store') {
+        //     $data['group'] = [
+        //         'id' => $this->group_id,
+        //         'name' => $this->group->name ?? null,
+        //     ];
+        //     $data['classification'] = [
+        //         'id' => $this->group->classification->id ?? null,
+        //         'name' => $this->group->classification->name ?? null,
+        //     ];
+        // }
 
-        return $data; 
+        return $data;
     }
 }

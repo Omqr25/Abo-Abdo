@@ -28,7 +28,7 @@ class CustomerController extends Controller
             $data = $this->customerRepository->index();
             return $this->SuccessMany($data, CustomerResource::class, 'Customers indexed successfully');
         } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage(), $th->getCode());
         }
     }
 
@@ -39,7 +39,7 @@ class CustomerController extends Controller
             $data = $this->customerRepository->store($validated);
             return $this->SuccessOne($data, CustomerResource::class, 'Customer created successfully');
         } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage(), $th->getCode());
         }
     }
 
@@ -49,7 +49,7 @@ class CustomerController extends Controller
             $data = $this->customerRepository->show($id);
             return $this->SuccessOne($data, CustomerResource::class, 'Successful');
         } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage(), $th->getCode());
         }
     }
 
@@ -60,7 +60,7 @@ class CustomerController extends Controller
             $data = $this->customerRepository->update($id, $validated);
             return $this->SuccessOne($data, CustomerResource::class, 'Customer updated successfully');
         } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage(), $th->getCode());
         }
     }
 
@@ -70,7 +70,7 @@ class CustomerController extends Controller
             $this->customerRepository->destroy($id);
             return $this->SuccessOne(null, null, 'Customer deleted successfully');
         } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage(), 404);
+            return $this->Error(null, $th->getMessage(),  $th->getCode());
         }
     }
 
@@ -80,7 +80,7 @@ class CustomerController extends Controller
             $data = $this->customerRepository->showDeleted();
             return $this->SuccessMany($data, null, 'Records indexed successfully');
         } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage(), $th->getCode());
         }
     }
 
@@ -92,9 +92,19 @@ class CustomerController extends Controller
                 $this->customerRepository->restore($ids);
                 return $this->SuccessOne(null, null, 'restored successfully');
             } catch (Throwable $th) {
-                return $this->Error(null, $th->getMessage());
+                return $this->Error(null, $th->getMessage(), $th->getCode());
             }
         }
         return $this->Error(null, 'Customers must be provided');
+    }
+
+    public function getGroups($customer_id)
+    {
+        try {
+            $data = $this->customerRepository->getGroups($customer_id);
+            return $this->SuccessOne($data, null, "Success");
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage(), $th->getCode());
+        }
     }
 }

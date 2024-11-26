@@ -18,10 +18,12 @@ class GroupFactory extends Factory
      */
     public function definition(): array
     {
+        $colors = ItemColor::cases();
+        $selectedColors = $this->faker->randomElements(array_map(fn($color) => $color->value, $colors), random_int(1, count($colors)));
         return [
             'name' => fake()->name,
             'description' => fake()->text(20),
-            'color' => $this->faker->randomElement(ItemColor::class),
+            'colors' => json_encode($selectedColors),
             'classification_id' => Classification::all()->random()->id,
             'workshop_id' => 1,
         ];

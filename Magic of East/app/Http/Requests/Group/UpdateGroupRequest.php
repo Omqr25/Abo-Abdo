@@ -26,8 +26,18 @@ class UpdateGroupRequest extends FormRequest
         return [
             'name' => 'string|min:4',
             'description' => 'string|min:3',
-            'color' => [new Enum(ItemColor::class)],
+            'colors' => 'array',
+            'colors.*' => 'integer|in:' . implode(',', array_column(ItemColor::cases(), 'value')),
             'classification_id' => 'exists:classifications,id',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'colors.required' => 'حقل الالوان مطلوب',
+            'colors.array'    => 'الالوان يجب ان تكون مصفوفة',
+            'colors.*.integer' => 'كل لون يجب ان يكون رقما',
+            'colors.*.in'     => 'قيمة اللون يجب ان تكون صحيحة',
         ];
     }
 }

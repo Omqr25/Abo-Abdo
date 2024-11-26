@@ -28,7 +28,7 @@ class BaseRepository implements BaseRepositoryInterface
     public function show($id)
     {
         $data = $this->model::find($id);
-        if ($data == null) throw new Exception('No such Record');
+        if ($data == null) throw new Exception('No such Record' , 404);
         return $data;
     }
 
@@ -40,7 +40,7 @@ class BaseRepository implements BaseRepositoryInterface
     public function update($id, array $data)
     {
         $record = $this->model::find($id);
-        if ($record == null) throw new Exception('No such Record');
+        if ($record == null) throw new Exception('No such Record' , 404);
         $record->update($data);
         return $record;
     }
@@ -48,7 +48,7 @@ class BaseRepository implements BaseRepositoryInterface
     public function destroy($id)
     {
         $record = $this->model::find($id);
-        if ($record == null) throw new Exception('No such Record');
+        if ($record == null) throw new Exception('No such Record' , 404);
         return $record->delete();
     }
 

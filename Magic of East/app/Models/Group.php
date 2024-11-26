@@ -18,20 +18,20 @@ class Group extends Model
   protected $fillable = [
     'name',
     'description',
-    'color',
+    'colors',
     'classification_id',
     'workshop_id'
   ];
 
-      protected $casts = [
-        'color' => ItemColor::class,
-    ];
+  protected $casts = [
+    'colors' => 'array',
+  ];
 
-    public function scopeColor(Builder $query, $value): Builder
-    {
-      $colors = ItemColor::getColorMap();
-      return $query->where('color', $colors[$value]);
-    }
+  public function scopeColor(Builder $query, $value): Builder
+  {
+    $colors = ItemColor::getColorMap();
+    return $query->where('color', $colors[$value]);
+  }
 
   public function classification(): BelongsTo
   {
@@ -52,10 +52,10 @@ class Group extends Model
   {
     return $this->belongsToMany(Invoice::class);
   }
-  
+
   public function media(): HasMany
   {
-      return $this->hasMany(Media::class);
+    return $this->hasMany(Media::class);
   }
 
   public function workshop(): BelongsTo
