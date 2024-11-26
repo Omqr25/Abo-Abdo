@@ -28,7 +28,7 @@ class GroupResource extends JsonResource
                 ];
             }),
         ];
-        if ($request->route()->getName() === 'invoices.show') {
+        if ($request->route()->getName() === 'invoices.index' || $request->route()->getName() === 'invoices.show') {
             $data['pivot'] = ($this->pivot)->only('net_price', 'sell_price', 'quantity');
         }
 
