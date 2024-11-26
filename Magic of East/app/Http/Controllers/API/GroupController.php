@@ -29,7 +29,7 @@ class GroupController extends Controller
             $data = $this->groupRepository->index();
             return $this->SuccessMany($data, GroupResource::class, 'Groups indexed successfully');
         } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage());
+            return $this->Error(null, $th->getMessage(), 404);
         }
     }
 

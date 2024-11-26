@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Trait;
+
 use Illuminate\Http\JsonResponse;
+
 trait ApiResponse
 {
-    public static function response($data, $message, $code = 200 , $meta = null): JsonResponse
+    public static function response($data, $message, $code = 200, $meta = null): JsonResponse
     {
         $response = ['message' => $message, 'status' => $code];
         if ($meta) {
@@ -25,7 +27,7 @@ trait ApiResponse
     {
         $paginationMeta = $this->getPaginationMeta($data);
         $response = $resource::collection($data);
-        return $this->response($response , $message, $code,$paginationMeta );
+        return $this->response($response, $message, $code, $paginationMeta);
     }
 
     protected function getPaginationMeta($paginator): array
@@ -44,12 +46,8 @@ trait ApiResponse
     public static function Error($data = null, $message = 'Error', $code = 200): JsonResponse
     {
         return response()->json(
-            [
-                'status' => 0,
-                'data' => $data,
-                'message' => $message,
-                'code' => $code,
-            ]
+            $message,
+            $code
         );
     }
 }
