@@ -85,7 +85,7 @@ class ClassificationController extends Controller
     }
 
     public function restore(Request $request)
-    { 
+    {
         $ids = $request->input('ids');
         if ($ids != null) {
             try {
@@ -96,5 +96,15 @@ class ClassificationController extends Controller
             }
         }
         return $this->Error(null, 'Classifications must be provided');
+    }
+
+    public function getGroups()
+    {
+        try {
+            $data = $this->classificationRepository->getGroups();
+            return $this->SuccessOne($data, null, "Get Groups For Classifications done Successfully", 200);
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage());
+        }
     }
 }

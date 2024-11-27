@@ -33,6 +33,7 @@ Route::get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::controller(ClassificationController::class)->prefix('classifications')->group(function () {
+        Route::get('getgroups', 'getGroups')->withoutMiddleware('auth:sanctum')->name('classifications.getgroups');
         Route::get('', 'index')->withoutMiddleware('auth:sanctum');
         Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');
         Route::post('', 'store');

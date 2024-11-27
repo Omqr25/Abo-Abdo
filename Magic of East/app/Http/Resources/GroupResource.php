@@ -15,6 +15,16 @@ class GroupResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        if ($request->route()->getName() === 'classifications.getgroups') {
+            return [
+                'name' => $this->name,
+                'photos' => $this->media->map(function ($mediaItem) {
+                    return [
+                        'path' => config('app.url') . '/' . $mediaItem->path
+                    ];
+                })
+            ];
+        }
         $data = [
             'id' => $this->id,
             'name' => $this->name,
@@ -24,7 +34,7 @@ class GroupResource extends JsonResource
             'photos' =>  $this->media->map(function ($mediaItem) {
                 return [
                     'id' => $mediaItem->id,
-                    'path' => $mediaItem->path,
+                    'path' => config('app.url') . $mediaItem->path,
                 ];
             }),
         ];
