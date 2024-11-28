@@ -9,6 +9,7 @@ use App\Http\Requests\Media\StoreMediaRequest;
 use App\Http\Requests\Media\UpdateMediaRequest;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\ItemResource;
+use App\Http\Services\Filter\FilterService;
 use App\Models\Group;
 use App\Models\Item;
 use App\Models\Media;
@@ -26,6 +27,10 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
 
     public function index()
     {
+        if (request()->has('filter') || request()->has('sort')) {
+            $func = class_basename(Group::class);
+            return FilterService::$func();
+        }
         $data = Group::with(['media', 'items'])->simplePaginate(10);
         return $data;
     }
