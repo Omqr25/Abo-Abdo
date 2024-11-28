@@ -24,19 +24,6 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
         parent::__construct($model);
     }
 
-    public function index()
-    {
-        $data = Group::with(['media', 'items'])->simplePaginate(10);
-        return $data;
-    }
-
-    public function show($id)
-    {
-        $data = Group::with(['media', 'items'])->findOrFail($id);
-
-        return $data;
-    }
-
     public function store($data)
     {
         if (isset($data['items'])) {

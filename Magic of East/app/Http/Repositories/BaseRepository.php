@@ -16,19 +16,32 @@ class BaseRepository implements BaseRepositoryInterface
         $this->model = $model;
     }
 
-    public function index()
+    public function index(array $with = [])
     {
-        if(request()->has('filter') || request()->has('sort')){
+        $query = $this->model::query();
+
+        if (!empty($with)) {
+            $query->with($with);
+        }
+
+        if (request()->has('filter') || request()->has('sort')) {
             $func = class_basename($this->model);
             return FilterService::$func();
         }
-        return $this->model::simplePaginate(10);
+
+        return $query->simplePaginate(10);
     }
 
-    public function show($id)
+    public function show($id, array $with = [])
     {
-        $data = $this->model::find($id);
-        if ($data == null) throw new Exception('No such Record' , 404);
+        $query = $this->model::query();
+
+        if (!empty($with)) {
+            $query->with($with);
+        }
+
+        $data = $query->find($id);
+        if ($data == null) throw new Exception('No such Record', 404);
         return $data;
     }
 
