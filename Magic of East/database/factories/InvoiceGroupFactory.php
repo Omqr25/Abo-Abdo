@@ -22,9 +22,7 @@ class InvoiceGroupFactory extends Factory
         return [
             'group_id' => Group::all()->random()->id,
             'invoice_id' => Invoice::all()->random()->id,
-            'net_price' => mt_rand(1,1000),
-            'sell_price' => mt_rand(1,1000),
-            'quantity' => fake()->numberBetween(1,200),
+            'quantity' => fake()->numberBetween(1, 200),
         ];
     }
 }

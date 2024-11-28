@@ -24,19 +24,6 @@ class ItemResource extends JsonResource
                 'depth' => $this->depth,
             ],
         ];
-
-
-        // if ($request->route()->getName() !== 'groups.store') {
-        //     $data['group'] = [
-        //         'id' => $this->group_id,
-        //         'name' => $this->group->name ?? null,
-        //     ];
-        //     $data['classification'] = [
-        //         'id' => $this->group->classification->id ?? null,
-        //         'name' => $this->group->classification->name ?? null,
-        //     ];
-        // }
-
         return $data;
     }
 }

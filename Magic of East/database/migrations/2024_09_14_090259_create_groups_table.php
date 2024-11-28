@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->json('colors');
+            $table->bigInteger('net_price');
             $table->foreignId('classification_id')->references('id')->on('classifications')->onDelete('cascade');
             $table->foreignId('workshop_id')->constrained();
             $table->timestamps();

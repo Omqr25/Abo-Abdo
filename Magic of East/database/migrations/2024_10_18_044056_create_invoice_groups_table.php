@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('invoice_id')->constrained()->cascadeOnDelete();
             $table->foreignId('group_id')->constrained()->cascadeOnDelete();
-            $table->bigInteger('net_price');
-            $table->bigInteger('sell_price');
-            $table->bigInteger('quantity');
+            $table->bigInteger('quantity')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

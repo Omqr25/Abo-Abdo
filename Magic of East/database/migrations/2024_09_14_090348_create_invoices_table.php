@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->boolean('with_delivery');
+            $table->boolean('with_delivery')->default(false);
             $table->bigInteger('total_net_price')->nullable();
             $table->bigInteger('total_sell_price')->nullable();
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

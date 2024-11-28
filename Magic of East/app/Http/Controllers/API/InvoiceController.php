@@ -37,7 +37,7 @@ class InvoiceController extends Controller
         try {
             $validated = $request->validated();
             $data = $this->invoiceRepository->store($validated);
-            return $this->SuccessOne($data, InvoiceResource::class, 'Invoice created successfully');
+            return $this->SuccessOne($data, null, 'Invoice created successfully');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());
         }

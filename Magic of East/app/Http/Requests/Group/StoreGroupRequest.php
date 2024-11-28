@@ -25,6 +25,7 @@ class StoreGroupRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:4',
+            'net_price' => 'required|numeric|gt:0',
             'description' => 'required|string|min:3',
             'colors' => 'required',
             'classification_id' => 'required|exists:classifications,id',

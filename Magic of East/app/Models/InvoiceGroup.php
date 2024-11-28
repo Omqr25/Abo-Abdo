@@ -14,8 +14,6 @@ class InvoiceGroup extends Model
     protected $fillable = [
         'group_id',
         'invoice_id',
-        'net_price',
-        'sell_price',
         'quantity',
     ];
 

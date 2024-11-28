@@ -23,10 +23,12 @@ class StoreInvoiceRequest extends FormRequest
     {
         return [
             'customer_id' => 'required|exists:customers,id',
+            'groups' => 'required|array',
+            'groups.*.id' => 'required|exists:groups,id',
+            'groups.*.quantity' => 'required|numeric|gt:0',
             'notes' => 'string|min:3',
-            'with_delivery' => 'required|boolean',
-            'total_net_price' => 'numeric|gt:0',
-            'total_sell_price' => 'numeric|gt:0',
+            //'with_delivery' => 'required|boolean',
+            'total_sell_price' => 'required|numeric|gt:0',
         ];
     }
 }

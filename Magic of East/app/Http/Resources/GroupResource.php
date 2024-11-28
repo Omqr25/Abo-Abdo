@@ -3,11 +3,19 @@
 namespace App\Http\Resources;
 
 use App\Enums\ItemColor;
+use App\Models\InvoiceGroup;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 
 class GroupResource extends JsonResource
 {
+    protected $invoiceId;
+    public function __construct($resource, $invoiceId = null)
+    {
+        parent::__construct($resource);
+        $this->invoiceId = $invoiceId;
+    }
     /**
      * Transform the resource into an array.
      *
@@ -25,9 +33,18 @@ class GroupResource extends JsonResource
                 })
             ];
         }
+        if ($request->route()->getName() === 'invoices.index' || $request->route()->getName() === 'invoices.show') {
+            $quantity = InvoiceGroup::where('group_id', $this->id)->where('invoice_id', $this->invoiceId)->select(DB::raw('quantity'))->first();
+            return [
+                'name' => $this->name,
+                'quantity' => $quantity->quantity,
+                'items' => ItemResource::collection($this->items),
+            ];
+        }
         $data = [
             'id' => $this->id,
             'name' => $this->name,
+            'net_price' => $this->net_price,
             'description' => $this->description,
             'colors' => json_decode($this->colors, true),
             'items' => ItemResource::collection($this->items),
@@ -38,10 +55,6 @@ class GroupResource extends JsonResource
                 ];
             }),
         ];
-        if ($request->route()->getName() === 'invoices.index' || $request->route()->getName() === 'invoices.show') {
-            $data['pivot'] = ($this->pivot)->only('net_price', 'sell_price', 'quantity');
-        }
-
         return $data;
     }
 }

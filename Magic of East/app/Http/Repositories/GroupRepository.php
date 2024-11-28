@@ -60,6 +60,7 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             'description' => $data['description'],
             'colors' => json_encode($data['colors']),
             'classification_id' => $data['classification_id'],
+            'net_price' => $data['net_price'],
             'workshop_id' => $data['workshop_id'],
         ]);
         $items_data = [];
@@ -122,6 +123,7 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             'description' => $data['description'],
             'colors' => json_encode($data['colors']),
             'classification_id' => $data['classification_id'],
+            'net_price' => $data['net_price'],
             'workshop_id' => $data['workshop_id'],
         ]);
 

@@ -28,7 +28,7 @@ class Invoice extends Model
 
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(Group::class, 'invoice_groups')->withPivot('net_price','sell_price','quantity');
+        return $this->belongsToMany(Group::class, 'invoice_groups');
     }
     public function invoiceGroups(): HasMany
     {

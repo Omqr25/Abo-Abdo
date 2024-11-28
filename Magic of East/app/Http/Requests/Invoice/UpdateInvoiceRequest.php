@@ -23,9 +23,11 @@ class UpdateInvoiceRequest extends FormRequest
     {
         return [
             'customer_id' => 'exists:customers,id',
+            'groups' => 'array',
+            'groups.*.id' => 'exists:groups,id',
+            'groups.*.quantity' => 'numeric|gt:0',
             'notes' => 'string|min:3',
-            'with_delivery' => 'boolean',
-            'total_net_price' => 'numeric|gt:0',
+            //'with_delivery' => 'boolean',
             'total_sell_price' => 'numeric|gt:0',
         ];
     }

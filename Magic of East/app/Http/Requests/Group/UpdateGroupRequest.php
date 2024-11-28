@@ -25,6 +25,7 @@ class UpdateGroupRequest extends FormRequest
     {
         return [
             'name' => 'string|min:4',
+            'net_price' => 'numeric|gt:0',
             'description' => 'string|min:3',
             'colors' => 'array',
             'colors.*' => 'integer|in:' . implode(',', array_column(ItemColor::cases(), 'value')),

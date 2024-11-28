@@ -22,6 +22,7 @@ class GroupFactory extends Factory
         $selectedColors = $this->faker->randomElements(array_map(fn($color) => $color->value, $colors), random_int(1, count($colors)));
         return [
             'name' => fake()->name,
+            'net_price' => mt_rand(1,1000),
             'description' => fake()->text(20),
             'colors' => json_encode($selectedColors),
             'classification_id' => Classification::all()->random()->id,

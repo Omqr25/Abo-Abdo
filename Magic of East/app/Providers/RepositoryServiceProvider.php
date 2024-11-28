@@ -15,8 +15,6 @@ use App\Http\Interfaces\CustomerRepositoryInterface;
 use App\Http\Interfaces\EmployeeRepositoryInterface;
 use App\Http\Interfaces\ExpenseRepositoryInterface;
 use App\Http\Repositories\CustomerRepository;
-use App\Http\Interfaces\InvoiceGroupRepositoryInterface;
-use App\Http\Repositories\InvoiceGroupRepository;
 use App\Http\Interfaces\InvoiceRepositoryInterface;
 use App\Http\Repositories\InvoiceRepository;
 use App\Http\Interfaces\UserRepositoryInterface;
@@ -39,7 +37,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ItemRepositoryInterface::class, ItemRepository::class);
         $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
         $this->app->bind(InvoiceRepositoryInterface::class, InvoiceRepository::class);
-        $this->app->bind(InvoiceGroupRepositoryInterface::class, InvoiceGroupRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(EmployeeRepositoryInterface::class, EmployeeRepository::class);
         $this->app->bind(ExpenseRepositoryInterface::class, ExpenseRepository::class);
