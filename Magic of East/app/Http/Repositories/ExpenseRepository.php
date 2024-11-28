@@ -36,8 +36,7 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
                     $total = $monthlyExpenses->where('month', $month)->where('year', $year)->first()->total;
                 }
                 $results[] = [
-                    'year' => $year,
-                    'month' => $month,
+                    'date' => $year . '/' . $month,
                     'total' => $total,
                 ];
             }

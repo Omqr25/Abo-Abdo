@@ -23,7 +23,7 @@ class GroupResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        if ($request->route()->getName() === 'classifications.getgroups') {
+        if ($request->route()->getName() === 'classifications.getgroups' || $request->route()->getName() === 'groups.index') {
             return [
                 'name' => $this->name,
                 'photos' => $this->media->map(function ($mediaItem) {
@@ -38,7 +38,7 @@ class GroupResource extends JsonResource
             return [
                 'name' => $this->name,
                 'quantity' => $quantity->quantity,
-                'items' => ItemResource::collection($this->items),
+                'workshop' => $this->workshop->name,
             ];
         }
         $data = [

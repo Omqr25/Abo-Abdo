@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::controller(GroupController::class)->prefix('groups')->group(function () {
-        Route::get('', 'index')->withoutMiddleware('auth:sanctum');
+        Route::get('', 'index')->withoutMiddleware('auth:sanctum')->name('groups.index');
         Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');
         Route::post('', 'store');
         Route::put('/{id}', 'update');

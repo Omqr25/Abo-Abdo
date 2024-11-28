@@ -14,6 +14,13 @@ class InvoiceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        if ($request->route()->getName() === 'invoices.index') {
+            return [
+                'id' => $this->id,
+                'customer' => ($this->customer->firstname . ' ' . $this->customer->lastname) ?? null,
+                'date' => $this->created_at->format('Y/m/d')
+            ];
+        }
         $data = [
             'id' => $this->id,
             'customer' => ($this->customer->firstname . ' ' . $this->customer->lastname) ?? null,
@@ -24,7 +31,7 @@ class InvoiceResource extends JsonResource
             'date' => $this->created_at->format('Y/m/d')
         ];
 
-        if ($request->route()->getName() === 'invoices.index' || $request->route()->getName() === 'invoices.show') {
+        if ($request->route()->getName() === 'invoices.show') {
             $data['groups'] = GroupResource::collection($this->groups->map(function ($group) {
                 return new GroupResource($group, $this->id);
             }));
