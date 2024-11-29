@@ -25,6 +25,7 @@ class GroupResource extends JsonResource
     {
         if ($request->route()->getName() === 'classifications.getgroups' || $request->route()->getName() === 'groups.index') {
             return [
+                'id' => $this->id,
                 'name' => $this->name,
                 'photos' => $this->media->map(function ($mediaItem) {
                     return [
