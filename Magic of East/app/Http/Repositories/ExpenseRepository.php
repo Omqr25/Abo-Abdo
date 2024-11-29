@@ -83,8 +83,7 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
                     ];
                 }
                 $results[] = [
-                    'year' => $year,
-                    'month' => $month,
+                    'date' => $year . '/' . $month,
                     'total' => $total,
                     'details' => $details,
                 ];

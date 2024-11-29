@@ -109,7 +109,7 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             $itemss = $data['items'];
             foreach ($itemss as $item) {
                 $item['group_id'] = $id;
-                (new UpdateItemRequest($item))->validationData();
+                (new StoreItemRequest($item))->validationData();
             }
         }
         if (isset($data['images'])) {
@@ -118,12 +118,11 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
                 $imagecopy = [];
                 $imagecopy['image'] = $image;
                 $imagecopy['group_id'] = $id;
-                (new UpdateMediaRequest($imagecopy))->validationData();
+                (new StoreMediaRequest($imagecopy))->validationData();
             }
         }
-        $group = Group::find($id);
-        if ($group == null) throw new Exception('No such group', 404);
-        $group->update([
+
+        $group = Group::find($id)->update([
             'name' => $data['name'],
             'description' => $data['description'],
             'colors' => json_encode($data['colors']),
@@ -131,55 +130,47 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             'net_price' => $data['net_price'],
             'workshop_id' => $data['workshop_id'],
         ]);
-
         $items_data = [];
         $images_data = [];
         if (isset($data['items'])) {
             $existingItems = $group->items()->pluck('id')->toArray();
-            $newItemsIds = [];
-            $items = $data['items'];
-            foreach ($items as $item) {
-                $item['group_id'] = $id;
-                $item_validated = (new StoreItemRequest($item))->validationData();
-                $createdItem = Item::create($item_validated);
-                $newItemsIds[] = $createdItem->id;
-                $items_data[] = new ItemResource($createdItem);
-            }
-            $items_to_delete = array_diff($existingItems, $newItemsIds);
-            foreach ($items_to_delete as $item_id) {
-                $item = Item::find($item_id);
-                $item->delete();
+            $newItemsIds = array_column($data['items'], 'id');
+            $idstodelete = array_diff($existingItems, $newItemsIds);
+            Item::destroy($idstodelete);
+            $itemss = $data['items'];
+            foreach ($itemss as $item) {
+                $it = Item::find($item['id']);
+                if ($it) {
+                    $it->update($item);
+                    $items_data[] = new ItemResource($it);
+                } else {
+                    $item['group_id'] = $id;
+                    $item_validated = (new StoreItemRequest($item))->validationData();
+                    $createdItem = Item::create($item_validated);
+                    $items_data[] = new ItemResource($createdItem);
+                }
             }
         }
-
-        if (isset($data['images'])) {
+        if (isset($data['old_imagse'])) {
             $existingImages = $group->media()->pluck('id')->toArray();
-            $newImageIds = [];
+            $newImagesIds = array_column($data['old_images'], 'id');
+            $idstodelete = array_diff($existingImages, $newImagesIds);
+            Media::destroy($idstodelete);
+        }
+        if (isset($data['images'])) {
             $images = $data['images'];
             foreach ($images as $image) {
                 $imagecopy = [];
                 $imagecopy['image'] = $image;
-                $imagecopy['group_id'] =  $id;
+                $imagecopy['group_id'] =  $group['id'];
                 $image_validated =  (new StoreMediaRequest($imagecopy))->validationData();
                 $path = UploadImage::upload($image_validated['image']);
                 $createdImage = Media::create(['group_id' => $group['id'], 'path' => $path]);
-                $newImageIds[] = $createdImage->id;
                 $images_data[] = $createdImage->only('id', 'path');
             }
-            $imagesToDelete = array_diff($existingImages, $newImageIds);
-            foreach ($imagesToDelete as $imageId) {
-                $image = Media::find($imageId);
-                if ($image) {
-                    Storage::disk('public')->delete($image->path);
-                    $image->delete();
-                }
-            }
         }
-
-        $group_data = new GroupResource($group);
-
         return [
-            'group' => $group_data,
+            'group' => $group,
             'items' => $items_data,
             'images' => $images_data,
         ];
