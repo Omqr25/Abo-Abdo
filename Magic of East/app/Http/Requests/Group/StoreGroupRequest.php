@@ -24,7 +24,7 @@ class StoreGroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:4',
+            'name' => 'required|string|min:2',
             'net_price' => 'required|numeric|gt:0',
             'description' => 'required|string|min:3',
             'colors' => 'required',
