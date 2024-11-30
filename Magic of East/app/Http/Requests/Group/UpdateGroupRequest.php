@@ -30,6 +30,9 @@ class UpdateGroupRequest extends FormRequest
             'colors' => 'array',
             'colors.*' => 'integer|in:' . implode(',', array_column(ItemColor::cases(), 'value')),
             'classification_id' => 'exists:classifications,id',
+            'images' => 'array',
+            'old_images' => 'array',
+            'items' => 'array'
         ];
     }
     public function messages()

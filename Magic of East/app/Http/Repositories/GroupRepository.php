@@ -105,7 +105,8 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             }
         }
 
-        $group = Group::find($id)->update([
+        $group = Group::find($id);
+        $group->update([
             'name' => $data['name'],
             'description' => $data['description'],
             'colors' => json_encode($data['colors']),
@@ -122,8 +123,8 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             Item::destroy($idstodelete);
             $itemss = $data['items'];
             foreach ($itemss as $item) {
-                $it = Item::find($item['id']);
-                if ($it) {
+                if (isset($item['id'])) {
+                    $it = Item::find($item['id']);
                     $it->update($item);
                     $items_data[] = new ItemResource($it);
                 } else {
@@ -134,10 +135,9 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
                 }
             }
         }
-        if (isset($data['old_imagse'])) {
+        if (isset($data['old_images'])) {
             $existingImages = $group->media()->pluck('id')->toArray();
-            $newImagesIds = array_column($data['old_images'], 'id');
-            $idstodelete = array_diff($existingImages, $newImagesIds);
+            $idstodelete = array_diff($existingImages, $data['old_images']);
             Media::destroy($idstodelete);
         }
         if (isset($data['images'])) {

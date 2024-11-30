@@ -24,13 +24,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'firstname' => fake()->firstName(),
-            'lastname' => fake()->lastName(),
-            'email' => fake()->unique()->email(),
+            'firstname' => "مؤسسة ضياء الدين",
+            'lastname' => "جمعة",
+            'email' => "Diaajomaa@Admin.com",
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= Hash::make('12345678'),
             'remember_token' => Str::random(10),
-            'address' => fake()->address(),
+            'address' => "جرمانا ساحة النجوم",
             'phonenumbers' => fake()->unique()->phoneNumber(),
             'mobilenumbers' => fake()->unique()->phoneNumber(),
             'socialaccounts' => json_encode(fake()->url()),
@@ -42,7 +42,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
