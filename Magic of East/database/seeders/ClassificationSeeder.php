@@ -13,6 +13,22 @@ class ClassificationSeeder extends Seeder
      */
     public function run(): void
     {
-        Classification::factory(20)->create();
+        $classifications = [
+            'غرف نوم',
+            'طقوم مغلف',
+            'مجالس عربي خليجي',
+            'بواب عربي',
+            'مطابخ',
+            'ديكورات',
+            'طاولات سفرة',
+            'مكتبيات',
+            'فرشات',
+            'مفردات'
+        ];
+        for ($i = 0; $i < 10; $i++) {
+            Classification::create([
+                'name' => $classifications[$i]
+            ]);
+        }
     }
 }

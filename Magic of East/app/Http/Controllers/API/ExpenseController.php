@@ -89,11 +89,11 @@ class ExpenseController extends Controller
         }
     }
 
-    public function getMonthlyWarehouseExpenses($type)
+    public function getMonthlyExpenses($type)
     {
 
         try {
-            $data = $this->expenseRepository->getMonthlyWarehouseExpenses($type);
+            $data = $this->expenseRepository->getMonthlyExpenses($type);
             return $this->SuccessOne($data, null, 'Success');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage(), 404);
@@ -114,6 +114,7 @@ class ExpenseController extends Controller
     {
         try {
             $data = $this->expenseRepository->getExpenseDetails($type, $month, $year);
+
             return $this->SuccessOne($data, null, 'Success');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage(), 404);

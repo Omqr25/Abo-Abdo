@@ -8,4 +8,6 @@ interface ExpenseRepositoryInterface extends BaseRepositoryInterface
 
     public function getExpenseDetails($type , $month , $year);
     public function getMonthlyEmployersExpenses();
+
+    public function getMonthlyExpenses($type);
 }

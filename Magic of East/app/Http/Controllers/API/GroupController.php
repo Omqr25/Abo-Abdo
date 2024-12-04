@@ -69,7 +69,6 @@ class GroupController extends Controller
             $validated = $request->validated();
             $validated['workshop_id'] = 1;
             $data = $this->groupRepository->update($id, $validated);
-            return $data;
             return $this->SuccessOne($data, GroupResource::class, 'Group updated successfully');
         } catch (Throwable $th) {
             $code = 200;
