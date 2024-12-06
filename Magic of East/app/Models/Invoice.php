@@ -13,7 +13,7 @@ class Invoice extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [ 
+    protected $fillable = [
         'customer_id',
         'notes',
         'with_delivery',
@@ -37,6 +37,6 @@ class Invoice extends Model
 
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class)->withTrashed();
     }
 }
