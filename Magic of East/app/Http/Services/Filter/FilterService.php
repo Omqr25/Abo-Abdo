@@ -7,8 +7,8 @@ use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Group;
 use App\Models\Invoice;
-use App\Models\InvoiceGroup;
 use App\Models\Item;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -32,6 +32,17 @@ class FilterService
                 AllowedFilter::custom('before', new CreatedDateFilter('before')),
                 AllowedFilter::custom('after', new CreatedDateFilter('after')),
                 AllowedFilter::exact('classification', 'classification_id'),
+                AllowedFilter::operator('net_price', FilterOperator::DYNAMIC),
+                AllowedFilter::exact('workshop', 'workshop_id'),
+                AllowedFilter::callback('invoice', function (Builder $query, $value) {
+                    $query->whereRelation('invoiceGroups','invoice_id', '=' , $value);
+                }),
+                AllowedFilter::callback('quantity_greater', function (Builder $query, $value) { 
+                    $query->whereRelation('invoiceGroups', 'quantity', '>=', $value);
+                }),
+                AllowedFilter::callback('quantity_lesser', function (Builder $query, $value) { 
+                    $query->whereRelation('invoiceGroups', 'quantity', '<=', $value);
+                }),
             ])
             ->simplePaginate(10);
         return $data;
@@ -77,20 +88,15 @@ class FilterService
                 AllowedFilter::operator('total_sell_price', FilterOperator::DYNAMIC),
                 AllowedFilter::custom('before', new CreatedDateFilter('before')),
                 AllowedFilter::custom('after', new CreatedDateFilter('after')),
-            ])
-            ->simplePaginate(10);
-        return $data;
-    }
-
-    public static function invoiceGroup()
-    {
-        $data = QueryBuilder::for(InvoiceGroup::class)
-            ->allowedFilters([
-                AllowedFilter::exact('invoice', 'invoice_id'),
-                AllowedFilter::exact('group', 'group_id'),
-                AllowedFilter::operator('net_price', FilterOperator::DYNAMIC),
-                AllowedFilter::operator('sell_price', FilterOperator::DYNAMIC),
-                AllowedFilter::operator('quantity', FilterOperator::DYNAMIC),
+                AllowedFilter::callback('group', function (Builder $query, $value) {
+                    $query->whereRelation('invoiceGroups','group_id', '=' , $value);
+                }),
+                AllowedFilter::callback('quantity_greater', function (Builder $query, $value) { 
+                    $query->whereRelation('invoiceGroups', 'quantity', '>=', $value);
+                }),
+                AllowedFilter::callback('quantity_lesser', function (Builder $query, $value) { 
+                    $query->whereRelation('invoiceGroups', 'quantity', '<=', $value);
+                }),
             ])
             ->simplePaginate(10);
         return $data;
