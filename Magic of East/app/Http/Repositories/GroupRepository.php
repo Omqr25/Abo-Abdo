@@ -9,13 +9,10 @@ use App\Http\Requests\Media\StoreMediaRequest;
 use App\Http\Requests\Media\UpdateMediaRequest;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\ItemResource;
-use App\Http\Services\Filter\FilterService;
 use App\Models\Group;
 use App\Models\Item;
 use App\Models\Media;
 use App\Trait\UploadImage;
-use Exception;
-use Illuminate\Support\Facades\Storage;
 
 class GroupRepository extends BaseRepository implements GroupRepositoryInterface
 {
