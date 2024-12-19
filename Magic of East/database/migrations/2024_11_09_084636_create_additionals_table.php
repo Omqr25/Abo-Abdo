@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->enum('type', [EmployerExpenseType::reward->value, EmployerExpenseType::deduction->value]);
             $table->integer('amount');
-            $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
+            $table->foreignId('total_additional_id')->constrained('total_additionals')->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

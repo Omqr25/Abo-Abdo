@@ -39,27 +39,8 @@ class Employee extends Model
     //   return $query->where('position', $positions[$value]);
     // }
 
-    public function rewards($month = null, $year = null): HasMany
+    public function total_additionals(): HasMany
     {
-        $query = $this->hasMany(Additional::class)->where('type', 1);
-
-        if ($month && $year) {
-            $query->whereMonth('created_at', $month)
-                ->whereYear('created_at', $year);
-        }
-
-        return $query;
-    }
-
-    public function deductions($month = null, $year = null): HasMany
-    {
-        $query = $this->hasMany(Additional::class)->where('type', 2);
-
-        if ($month && $year) {
-            $query->whereMonth('created_at', $month)
-                ->whereYear('created_at', $year);
-        }
-
-        return $query;
+        return $this->hasMany(total_additional::class);
     }
 }

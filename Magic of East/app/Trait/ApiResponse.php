@@ -15,14 +15,13 @@ trait ApiResponse
         $response = array_merge(['data' => $data], $response);
         return response()->json($response, $code);
     }
-    protected function SuccessOne($data, $resource, $message = 'Success', $code = 200): JsonResponse
+    protected function SuccessOne($data, $resource, $message = 'Success', $code = 200, $Additional = null): JsonResponse
     {
         if ($resource) {
-            $data = new $resource($data);
+            $data = $Additional ? new $resource($data, $Additional) : new $resource($data);
         }
         return $this->response($data, $message, $code);
     }
-
     protected function SuccessMany($data, $resource, $message = 'Success', $code = 200): JsonResponse
     {
         $paginationMeta = $this->getPaginationMeta($data);

@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Expense extends Model
+class Expensedetails extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'total',
-        'type'
+        'name',
+        'cost',
+        'expense_id'
     ];
 }

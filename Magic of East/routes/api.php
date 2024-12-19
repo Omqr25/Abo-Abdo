@@ -85,8 +85,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::controller(ExpenseController::class)->prefix('expenses')->group(function () {
-        Route::get('getMonthlyExpenses/{type}', 'getMonthlyExpenses');
-        Route::get('getExpenseDetails/{type}/{month}/{year}', 'getExpenseDetails')->name('ExpensesDetails');
+        Route::get('getExpenseDetails/{type}/{date}', 'getExpenseDetails')->name('ExpensesDetails');
+        Route::get('getall/{type}', 'getAll');
     });
 
     Route::controller(ReportsController::class)->prefix('reports')->group(function () {

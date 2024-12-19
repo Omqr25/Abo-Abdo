@@ -4,10 +4,6 @@ namespace App\Http\Interfaces;
 
 interface ExpenseRepositoryInterface extends BaseRepositoryInterface
 {
-    public function getMonthlyWarehouseExpenses($type);
-
-    public function getExpenseDetails($type , $month , $year);
-    public function getMonthlyEmployersExpenses();
-
-    public function getMonthlyExpenses($type);
+    public function getAll($type);
+    public function getExpenseDetails($type, $date);
 }

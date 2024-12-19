@@ -7,6 +7,7 @@ use App\Http\Interfaces\ExpenseRepositoryInterface;
 use App\Models\Expense;
 use App\Http\Requests\Expense\StoreExpenseRequest;
 use App\Http\Requests\Expense\UpdateExpenseRequest;
+use App\Http\Resources\ExpenseDetails\ExpenseDetailsResource;
 use App\Http\Resources\ExpenseResource;
 use App\Trait\ApiResponse;
 use Throwable;
@@ -34,6 +35,18 @@ class ExpenseController extends Controller
         }
     }
 
+    public function getAll($type)
+    {
+        try {
+            $data = $this->expenseRepository->getAll($type);
+            $response = ['message' => "Expense Details indexed successfully", 'status' => 200];
+            $response = array_merge(['meta' => $data['meta']], $response);
+            $response = array_merge(['data' => $data['data']], $response);
+            return response()->json($response, 200);
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage());
+        }
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -43,7 +56,7 @@ class ExpenseController extends Controller
         try {
             $validated = $request->validated();
             $data = $this->expenseRepository->store($validated);
-            return $this->SuccessOne($data, ExpenseResource::class, 'Expense created successfully');
+            return $this->SuccessOne($data, ExpenseDetailsResource::class, 'Expense created successfully', 200);
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());
         }
@@ -56,7 +69,7 @@ class ExpenseController extends Controller
     {
         try {
             $data = $this->expenseRepository->show($id);
-            return $this->SuccessOne($data, ExpenseResource::class, 'Expense Fetched successfully');
+            return $this->SuccessOne($data, ExpenseResource::class, 'Expense Fetched successfully', $data['type']);
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());
         }
@@ -89,33 +102,17 @@ class ExpenseController extends Controller
         }
     }
 
-    public function getMonthlyExpenses($type)
-    {
 
-        try {
-            $data = $this->expenseRepository->getMonthlyExpenses($type);
-            return $this->SuccessOne($data, null, 'Success');
-        } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage(), 404);
-        }
-    }
-
-    public function getMonthlyEmployersExpenses()
+    public function getExpenseDetails($type, $date)
     {
         try {
-            $data = $this->expenseRepository->getMonthlyEmployersExpenses();
-            return $this->SuccessOne($data, null, 'Success');
-        } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage(), 404);
-        }
-    }
-
-    public function getExpenseDetails($type, $month, $year)
-    {
-        try {
-            $data = $this->expenseRepository->getExpenseDetails($type, $month, $year);
-
-            return $this->SuccessOne($data, null, 'Success');
+            $data = $this->expenseRepository->getExpenseDetails($type, $date);
+            $response = ['message' => "Expense Details indexed successfully", 'status' => 200];
+            if (isset($data['meta'])) {
+                $response = array_merge(['meta' => $data['meta']], $response);
+                $response = array_merge(['data' => $data['data']], $response);
+            } else $response = array_merge(['data' => $data], $response);
+            return response()->json($response, 200);
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage(), 404);
         }

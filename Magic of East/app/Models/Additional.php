@@ -10,10 +10,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Additional extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['type', 'employee_id', 'amount'];
+    protected $fillable = ['type', 'total_additional_id', 'amount'];
 
-    public function employee(): BelongsTo
+    public function total_additional(): BelongsTo
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(total_additional::class);
     }
 }
