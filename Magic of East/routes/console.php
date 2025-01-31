@@ -7,4 +7,4 @@ use Illuminate\Support\Facades\Schedule;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
-Schedule::command('exepnses:calculate')->everyMinute();//->monthlyOn('1', '0:0');
+Schedule::command('exepnses:calculate')->monthlyOn('1', '0:0');

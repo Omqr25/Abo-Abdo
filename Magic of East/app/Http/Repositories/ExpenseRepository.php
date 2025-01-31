@@ -17,6 +17,16 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
         parent::__construct($model);
     }
 
+    /*
+        this method will return the total expenses for each month
+        for each month there is (total_1 & total_2):
+        whene type is 1:
+        total_1 :  Warehouse expenses
+        total_2 : Employers Expenses
+        whene type is 2:
+        total_1 :  Warehouse rental
+        total_2 : Taxes
+    */
     public function getAll($type)
     {
         $basequery = null;
@@ -31,9 +41,9 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
                     $data[$month] = ['date' => $month, 'total_1' => 0, 'total_2' => 0,];
                 }
                 if ($type == 1) {
-                    $data[$month]['total_1'] += $total;
+                    $data[$month]['total_1'] += $total; // for Warehouse expenses
                 } elseif ($type == 4) {
-                    $data[$month]['total_2'] += $total;
+                    $data[$month]['total_2'] += $total; // for Employers Expenses
                 }
             }
             $data = array_values($data);
@@ -47,9 +57,9 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
                     $data[$month] = ['date' => $month, 'total_1' => 0, 'total_2' => 0,];
                 }
                 if ($type == 2) {
-                    $data[$month]['total_1'] += $total;
+                    $data[$month]['total_1'] += $total; // Warehouse rental
                 } elseif ($type == 3) {
-                    $data[$month]['total_2'] += $total;
+                    $data[$month]['total_2'] += $total; // Taxes 
                 }
             }
             $data = array_values($data);
@@ -104,7 +114,7 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
         $month = $date->format('m');
         $year = $date->format('Y');
         if ($type == 4) {
-            $t = DB::table('total_additionals')->join('employees', 'total_additionals.employee_id', '=', 'employees.id')->whereMonth('total_additionals.created_at', $month)->whereYear('total_additionals.created_at', $year)->select('total_additionals.id','total_additionals.total', 'total_additionals.salary',  DB::raw("CONCAT(employees.firstname, ' ', employees.lastname) AS employer_name"))->simplePaginate(10);
+            $t = DB::table('total_additionals')->join('employees', 'total_additionals.employee_id', '=', 'employees.id')->whereMonth('total_additionals.created_at', $month)->whereYear('total_additionals.created_at', $year)->select('total_additionals.id', 'total_additionals.total', 'total_additionals.salary',  DB::raw("CONCAT(employees.firstname, ' ', employees.lastname) AS employer_name"))->simplePaginate(10);
 
             return [
                 'data' => $t->items(),

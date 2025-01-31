@@ -23,23 +23,7 @@ class ReportsController extends Controller
             $startYear = $endYear - 1;
             $startMonth = $currentMonth;
             $results = [];
-            while ($startMonth != 12) {
-                $total = 0;
-                if (Invoice::whereMonth('created_at', $startMonth)->whereYear('created_at', $startYear)->first() != null) {
-                    $query = Invoice::whereMonth('created_at', $startMonth)->whereYear('created_at', $startYear)->select(DB::raw('SUM(total_net_price) as tnp'), DB::raw('SUM(total_sell_price) as tsp'), DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'))
-                        ->groupBy('year', 'month')
-                        ->get();
-                    $total = $query->first()->tsp - $query->first()->tnp;
-                }
-                $results[] = [
-                    'year' => $startYear,
-                    'month' => $startMonth,
-                    'total' =>  $total
-                ];
-                $startMonth++;
-            }
-            $startMonth = 1;
-            while ($startMonth != $currentMonth + 1) {
+            while ($startMonth != 0) {
                 $total = 0;
                 if (Invoice::whereMonth('created_at', $startMonth)->whereYear('created_at', $endYear)->first() != null) {
                     $query = Invoice::whereMonth('created_at', $startMonth)->whereYear('created_at', $endYear)->select(DB::raw('SUM(total_net_price) as tnp'), DB::raw('SUM(total_sell_price) as tsp'), DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'))
@@ -47,14 +31,43 @@ class ReportsController extends Controller
                         ->get();
                     $total = $query->first()->tsp - $query->first()->tnp;
                 }
-                $results[] = [
-                    'year' => $endYear,
-                    'month' => $startMonth,
-                    'total' =>  $total
+                $totalex = 0;
+                if (Expense::whereMonth('created_at', $startMonth)->whereYear('created_at',  $endYear)->first() != null) {
+                    $e = Expense::whereMonth('created_at', $startMonth)->whereYear('created_at',  $endYear)->select(DB::raw('SUM(total) as total'), DB::raw('MONTH(created_at) as month'))->groupBy('month')->get();
+                    $totalex = $e->first()->total;
+                }
+                $total -= $totalex;
+                $results[$startMonth] = [
+                    $total
                 ];
-                $startMonth++;
+                $startMonth--;
             }
-            return $this->SuccessOne($results, null, 'Success');
+            $startMonth = 12;
+            while ($startMonth != $currentMonth) {
+                $total = 0;
+                if (Invoice::whereMonth('created_at', $startMonth)->whereYear('created_at', $startYear)->first() != null) {
+                    $query = Invoice::whereMonth('created_at', $startMonth)->whereYear('created_at', $startYear)->select(DB::raw('SUM(total_net_price) as tnp'), DB::raw('SUM(total_sell_price) as tsp'), DB::raw('YEAR(created_at) as year'), DB::raw('MONTH(created_at) as month'))
+                        ->groupBy('year', 'month')
+                        ->get();
+                    $total = $query->first()->tsp - $query->first()->tnp;
+                }
+                $totalex = 0;
+                if (Expense::whereMonth('created_at', $startMonth)->whereYear('created_at',  $startYear)->first() != null) {
+                    $e = Expense::whereMonth('created_at', $startMonth)->whereYear('created_at',  $startYear)->select(DB::raw('SUM(total) as total'), DB::raw('MONTH(created_at) as month'))->groupBy('month')->get();
+                    $totalex = $e->first()->total;
+                }
+                $total -= $totalex;
+                $results[$startMonth] = [
+                    $total
+                ];
+                $startMonth--;
+            }
+            ksort($results);
+            $result = [];
+            foreach ($results as $arr) {
+                $result[] = $arr[0];
+            }
+            return $this->SuccessOne($result, null, 'Success');
         } catch (Exception $e) {
             return $this->Error(null, $e->getMessage());
         }
@@ -74,7 +87,7 @@ class ReportsController extends Controller
                 $total_sell_price = $query->first()->tsp;
             }
             if (Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->first() != null) {
-                $query = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->select(DB::raw('SUM(cost) as cost'))->get();
+                $query = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->select(DB::raw('SUM(total) as cost'))->get();
                 $total_expenses = $query->first()->cost;
             }
             $data =  [
