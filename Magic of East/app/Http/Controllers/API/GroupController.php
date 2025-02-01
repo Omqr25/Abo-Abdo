@@ -26,7 +26,7 @@ class GroupController extends Controller
     public function index()
     {
         try {
-            $data = $this->groupRepository->index(['media', 'classification']);
+            $data = $this->groupRepository->index(['media', 'classification'], true);
             return $this->SuccessMany($data, GroupResource::class, 'Groups indexed successfully');
         } catch (Throwable $th) {
             $code = 200;

@@ -35,15 +35,15 @@ class FilterService
                 AllowedFilter::operator('net_price', FilterOperator::DYNAMIC),
                 AllowedFilter::exact('workshop', 'workshop_id'),
                 AllowedFilter::callback('invoice', function (Builder $query, $value) {
-                    $query->whereRelation('invoiceGroups','invoice_id', '=' , $value);
+                    $query->whereRelation('invoiceGroups', 'invoice_id', '=', $value);
                 }),
-                AllowedFilter::callback('quantity_greater', function (Builder $query, $value) { 
+                AllowedFilter::callback('quantity_greater', function (Builder $query, $value) {
                     $query->whereRelation('invoiceGroups', 'quantity', '>=', $value);
                 }),
-                AllowedFilter::callback('quantity_lesser', function (Builder $query, $value) { 
+                AllowedFilter::callback('quantity_lesser', function (Builder $query, $value) {
                     $query->whereRelation('invoiceGroups', 'quantity', '<=', $value);
                 }),
-            ])
+            ])->orderByRaw("CASE WHEN state = 'available' THEN 0 ELSE 1 END")
             ->simplePaginate(10);
         return $data;
     }
@@ -73,7 +73,7 @@ class FilterService
                 /*AllowedFilter::scope('address'),*/   // COMING SOON!
                 AllowedFilter::custom('before', new CreatedDateFilter('before')),
                 AllowedFilter::custom('after', new CreatedDateFilter('after')),
-            ])
+            ])->orderBy('firstname')->orderBy('lastname')
             ->simplePaginate(10);
         return $data;
     }
@@ -89,12 +89,12 @@ class FilterService
                 AllowedFilter::custom('before', new CreatedDateFilter('before')),
                 AllowedFilter::custom('after', new CreatedDateFilter('after')),
                 AllowedFilter::callback('group', function (Builder $query, $value) {
-                    $query->whereRelation('invoiceGroups','group_id', '=' , $value);
+                    $query->whereRelation('invoiceGroups', 'group_id', '=', $value);
                 }),
-                AllowedFilter::callback('quantity_greater', function (Builder $query, $value) { 
+                AllowedFilter::callback('quantity_greater', function (Builder $query, $value) {
                     $query->whereRelation('invoiceGroups', 'quantity', '>=', $value);
                 }),
-                AllowedFilter::callback('quantity_lesser', function (Builder $query, $value) { 
+                AllowedFilter::callback('quantity_lesser', function (Builder $query, $value) {
                     $query->whereRelation('invoiceGroups', 'quantity', '<=', $value);
                 }),
             ])
@@ -111,7 +111,7 @@ class FilterService
                 /*AllowedFilter::scope('address'),*/   // COMING SOON!
                 /*AllowedFilter::scope('position'),*/   // ???????????
                 AllowedFilter::operator('salary', FilterOperator::DYNAMIC),
-            ])
+            ])->orderBy('firstname')->orderBy('lastname')
             ->simplePaginate(10);
         return $data;
     }

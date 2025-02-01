@@ -25,7 +25,7 @@ class CustomerController extends Controller
     public function index()
     {
         try {
-            $data = $this->customerRepository->index();
+            $data = $this->customerRepository->index([] , true);
             return $this->SuccessMany($data, CustomerResource::class, 'Customers indexed successfully');
         } catch (Throwable $th) {
             $code = 200;

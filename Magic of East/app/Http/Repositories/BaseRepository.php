@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Http\Interfaces\BaseRepositoryInterface;
 use App\Http\Services\Filter\FilterService;
+use App\Http\Services\OrderService;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +17,7 @@ class BaseRepository implements BaseRepositoryInterface
         $this->model = $model;
     }
 
-    public function index(array $with = [])
+    public function index(array $with = [],  $order = false)
     {
         $query = $this->model::query();
 
@@ -28,7 +29,10 @@ class BaseRepository implements BaseRepositoryInterface
             $func = class_basename($this->model);
             return FilterService::$func();
         }
-
+        if ($order) {
+            $func = class_basename($this->model);
+            return OrderService::$func();
+        }
         return $query->simplePaginate(10);
     }
 
@@ -53,7 +57,7 @@ class BaseRepository implements BaseRepositoryInterface
     public function update($id, array $data)
     {
         $record = $this->model::find($id);
-        if ($record == null) throw new Exception('No such Record' , 404);
+        if ($record == null) throw new Exception('No such Record', 404);
         $record->update($data);
         return $record;
     }
@@ -61,7 +65,7 @@ class BaseRepository implements BaseRepositoryInterface
     public function destroy($id)
     {
         $record = $this->model::find($id);
-        if ($record == null) throw new Exception('No such Record' , 404);
+        if ($record == null) throw new Exception('No such Record', 404);
         return $record->delete();
     }
 
@@ -72,10 +76,9 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function restore(array $ids)
     {
-        foreach($ids as $id)
-            {
-                $model = $this->model::onlyTrashed()->find($id);
-                if($model) $model->restore();
-            }
+        foreach ($ids as $id) {
+            $model = $this->model::onlyTrashed()->find($id);
+            if ($model) $model->restore();
+        }
     }
 }

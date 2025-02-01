@@ -22,7 +22,7 @@ class EmployeeController extends Controller
     public function index()
     {
         try {
-            $data = $this->employeeRepository->index();
+            $data = $this->employeeRepository->index([], true);
             return $this->SuccessMany($data, EmployeeResource::class, 'Employees indexed successfully');
         } catch (Throwable $th) {
             return $this->Error(null, $th->getMessage());

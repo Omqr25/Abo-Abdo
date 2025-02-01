@@ -6,12 +6,34 @@ use App\Http\Interfaces\AdditionalRepositoryInterface;
 use App\Models\Additional;
 use App\Models\Expense;
 use App\Models\total_additional;
+use Illuminate\Support\Facades\DB;
 
 class AdditionalRepository extends BaseRepository implements AdditionalRepositoryInterface
 {
     public function __construct(Additional $model)
     {
         parent::__construct($model);
+    }
+
+
+    public function showAdditionals($id, $date)
+    {
+        $date = new \DateTime($date);
+        $month = $date->format('m');
+        $year = $date->format('Y');
+        $total_additional = total_additional::where('employee_id', $id)->whereMonth('created_at', $month)->whereYear('created_at', $year)->first();
+        $details = Additional::where('total_additional_id', $total_additional->id);
+        $type_1 = $details->where('type', 1)
+            ->sum('amount');
+        $type_2 = $details->where('type', 2)
+            ->sum('amount');
+        $data = [
+            'total' => $total_additional->total,
+            'total_rewards' => $type_1,
+            'total_deductions' => $type_2,
+            'details' => Additional::where('total_additional_id', $total_additional->id)->select('id', DB::raw("CASE WHEN type = 1 THEN 'reward' WHEN type = 2 THEN 'deduction' END as type"), 'amount')->get()
+        ];
+        return $data;
     }
 
     public function store($data)

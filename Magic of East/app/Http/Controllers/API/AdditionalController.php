@@ -20,6 +20,15 @@ class AdditionalController extends Controller
         $this->AdditionalRepository = $AdditionalRepository;
     }
 
+    public function showAdditionals($id, $date)
+    {
+        try {
+            $data = $this->AdditionalRepository->showAdditionals($id, $date);
+            return $this->SuccessOne($data, null, 'Details Indexed Successfully');
+        } catch (Throwable $th) {
+            return $this->Error(null, $th->getMessage());
+        }
+    }
     public function store(StoreAdditionalRequest $request)
     {
         try {

@@ -12,6 +12,7 @@ use App\Http\Controllers\API\MediaController;
 use App\Http\Controllers\API\ReportsController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Models\Additional;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -92,6 +93,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(ReportsController::class)->prefix('reports')->group(function () {
         Route::get('lastyearearnings', 'LastYearEarnings');
         Route::get('monthlyreport/{month}/{year}', 'MonthlyReport');
+    });
+
+    Route::controller(AdditionalController::class)->prefix('additionals')->group(function () {
+        Route::get('showdetails/{id}/{date}', 'showAdditionals');
     });
 
     Route::apiResources([
