@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Group;
 
 use App\Enums\ItemColor;
+use App\Enums\StateEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -28,6 +29,7 @@ class UpdateGroupRequest extends FormRequest
             'net_price' => 'numeric|gt:0',
             'description' => 'string|min:3',
             'colors' => 'array',
+            'state' => (new Enum(StateEnum::class)),
             'colors.*' => 'integer|in:' . implode(',', array_column(ItemColor::cases(), 'value')),
             'classification_id' => 'exists:classifications,id',
             'images' => 'array',

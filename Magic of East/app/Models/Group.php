@@ -21,6 +21,7 @@ class Group extends Model
     'colors',
     'classification_id',
     'net_price',
+    'state',
     'workshop_id'
   ];
 

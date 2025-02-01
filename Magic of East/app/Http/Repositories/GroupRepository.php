@@ -101,7 +101,6 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
                 (new StoreMediaRequest($imagecopy))->validationData();
             }
         }
-
         $group = Group::find($id);
         $group->update([
             'name' => $data['name'],
@@ -109,6 +108,7 @@ class GroupRepository extends BaseRepository implements GroupRepositoryInterface
             'colors' => json_encode($data['colors']),
             'classification_id' => $data['classification_id'],
             'net_price' => $data['net_price'],
+            'state' => $data['state'],
             'workshop_id' => $data['workshop_id'],
         ]);
         $items_data = [];

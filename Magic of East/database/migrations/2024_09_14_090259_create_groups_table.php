@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\StateEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('net_price');
             $table->foreignId('classification_id')->references('id')->on('classifications')->onDelete('cascade');
             $table->foreignId('workshop_id')->constrained();
-            $table->enum('state' , ['sold' , 'available'])->default('available');
+            $table->enum('state', [StateEnum::available->value, StateEnum::sold->value])->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
