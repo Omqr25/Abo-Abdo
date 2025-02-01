@@ -62,7 +62,7 @@ class ReportsController extends Controller
                 ];
                 $startMonth--;
             }
-            ksort($results);
+            //ksort($results);
             $result = [];
             foreach ($results as $arr) {
                 $result[] = $arr[0];

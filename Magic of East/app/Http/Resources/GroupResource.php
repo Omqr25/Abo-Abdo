@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Enums\ItemColor;
+use App\Models\Classification;
 use App\Models\InvoiceGroup;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -28,6 +29,7 @@ class GroupResource extends JsonResource
                 'id' => $this->id,
                 'name' => $this->name,
                 'state' => $this->state,
+                'classification_id' => Classification::find($this->classification_id)->first()->name,
                 'photos' => $this->media->map(function ($mediaItem) {
                     return config('app.url') . '/' . $mediaItem->path;
                 })

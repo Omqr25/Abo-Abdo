@@ -29,7 +29,7 @@ class GroupController extends Controller
             $data = $this->groupRepository->index(['media', 'classification'], true);
             return $this->SuccessMany($data, GroupResource::class, 'Groups indexed successfully');
         } catch (Throwable $th) {
-            $code = 200;
+            $code = 500;
             if ($th->getCode() != 0) $code = $th->getCode();
             return $this->Error(null, $th->getMessage(), $code);
         }
@@ -45,7 +45,7 @@ class GroupController extends Controller
             $data = $this->groupRepository->store($validated);
             return $this->SuccessOne($data, null, 'Group created successfully');
         } catch (Throwable $th) {
-            $code = 200;
+            $code = 500;
             if ($th->getCode() != 0) $code = $th->getCode();
             return $this->Error(null, $th->getMessage(), $code);
         }
@@ -57,7 +57,7 @@ class GroupController extends Controller
             $data = $this->groupRepository->show($id, ['media', 'classification']);
             return $this->SuccessOne($data, GroupResource::class, 'Successful');
         } catch (Throwable $th) {
-            $code = 200;
+            $code = 500;
             if ($th->getCode() != 0) $code = $th->getCode();
             return $this->Error(null, $th->getMessage(), $code);
         }
@@ -71,7 +71,7 @@ class GroupController extends Controller
             $data = $this->groupRepository->update($id, $validated);
             return $this->SuccessOne($data, null, 'Group updated successfully');
         } catch (Throwable $th) {
-            $code = 200;
+            $code = 500;
             if ($th->getCode() != 0) $code = $th->getCode();
             return $this->Error(null, $th->getMessage(), $code);
         }
@@ -83,7 +83,7 @@ class GroupController extends Controller
             $this->groupRepository->destroy($id);
             return $this->SuccessOne(null, null, 'Group deleted successfully');
         } catch (Throwable $th) {
-            $code = 200;
+            $code = 500;
             if ($th->getCode() != 0) $code = $th->getCode();
             return $this->Error(null, $th->getMessage(), $code);
         }
@@ -95,7 +95,7 @@ class GroupController extends Controller
             $data = $this->groupRepository->showDeleted();
             return $this->SuccessMany($data, null, 'Groups indexed successfully');
         } catch (Throwable $th) {
-            $code = 200;
+            $code = 500;
             if ($th->getCode() != 0) $code = $th->getCode();
             return $this->Error(null, $th->getMessage(), $code);
         }
@@ -109,7 +109,7 @@ class GroupController extends Controller
                 $this->groupRepository->restore($ids);
                 return $this->SuccessOne(null, null, 'restored successfully');
             } catch (Throwable $th) {
-                $code = 200;
+                $code = 500;
                 if ($th->getCode() != 0) $code = $th->getCode();
                 return $this->Error(null, $th->getMessage(), $code);
             }

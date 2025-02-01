@@ -28,7 +28,9 @@ class ClassificationController extends Controller
             $data = $this->classificationRepository->index();
             return $this->SuccessMany($data, ClassificationResource::class, 'Classifications indexed successfully');
         } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage());
+            $code = 500;
+            if ($th->getCode() != 0) $code = $th->getCode();
+            return $this->Error(null, $th->getMessage(), $code);
         }
     }
 
@@ -39,7 +41,9 @@ class ClassificationController extends Controller
             $data = $this->classificationRepository->store($validated);
             return $this->SuccessOne($data, ClassificationResource::class, 'Classification created successfully');
         } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage());
+            $code = 500;
+            if ($th->getCode() != 0) $code = $th->getCode();
+            return $this->Error(null, $th->getMessage(), $code);
         }
     }
 
@@ -49,7 +53,9 @@ class ClassificationController extends Controller
             $data = $this->classificationRepository->show($id);
             return $this->SuccessOne($data, ClassificationResource::class, 'Successful');
         } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage());
+            $code = 500;
+            if ($th->getCode() != 0) $code = $th->getCode();
+            return $this->Error(null, $th->getMessage(), $code);
         }
     }
 
@@ -104,7 +110,9 @@ class ClassificationController extends Controller
             $data = $this->classificationRepository->getGroups();
             return $this->SuccessOne($data, null, "Get Groups For Classifications done Successfully", 200);
         } catch (Throwable $th) {
-            return $this->Error(null, $th->getMessage());
+            $code = 500;
+            if ($th->getCode() != 0) $code = $th->getCode();
+            return $this->Error(null, $th->getMessage(), $code);
         }
     }
 }
