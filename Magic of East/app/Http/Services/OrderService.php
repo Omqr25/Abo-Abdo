@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Models\Customer;
 use App\Models\Employee;
+use App\Models\Group;
 
 class OrderService
 {
@@ -23,9 +24,9 @@ class OrderService
         return $data;
     }
 
-    public static function groups()
+    public static function group()
     {
-        $data = Customer::orderByRaw("CASE WHEN state = 'available' THEN 0 ELSE 1 END")
+        $data = Group::orderByRaw("CASE WHEN state = 'available' THEN 0 ELSE 1 END")
             ->simplePaginate(10);
         return $data;
     }

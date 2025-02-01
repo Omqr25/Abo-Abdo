@@ -27,6 +27,7 @@ class GroupResource extends JsonResource
             return [
                 'id' => $this->id,
                 'name' => $this->name,
+                'state' => $this->state,
                 'photos' => $this->media->map(function ($mediaItem) {
                     return config('app.url') . '/' . $mediaItem->path;
                 })
