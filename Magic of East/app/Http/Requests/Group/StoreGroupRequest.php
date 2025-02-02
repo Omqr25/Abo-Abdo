@@ -30,7 +30,7 @@ class StoreGroupRequest extends FormRequest
             'colors' => 'required',
             'classification_id' => 'required|exists:classifications,id',
             'items' => 'array|required',
-            //    'images' => 'array|required',
+            'images' => 'array|required',
         ];
     }
     public function messages()
