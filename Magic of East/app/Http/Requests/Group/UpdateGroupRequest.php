@@ -25,7 +25,7 @@ class UpdateGroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|min:4',
+            'name' => 'string|min:2',
             'net_price' => 'numeric|gt:0',
             'description' => 'string|min:3',
             'colors' => 'array',

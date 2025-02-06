@@ -22,6 +22,7 @@ class ItemResource extends JsonResource
                 'height' => $this->height,
                 'width' => $this->width,
                 'depth' => $this->depth,
+                'length' => $this->length
             ],
         ];
         return $data;

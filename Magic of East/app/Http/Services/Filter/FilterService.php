@@ -57,6 +57,7 @@ class FilterService
                 AllowedFilter::operator('height', FilterOperator::DYNAMIC),
                 AllowedFilter::operator('width', FilterOperator::DYNAMIC),
                 AllowedFilter::operator('depth', FilterOperator::DYNAMIC),
+                AllowedFilter::operator('length', FilterOperator::DYNAMIC),
                 AllowedFilter::custom('before', new CreatedDateFilter('before')),
                 AllowedFilter::custom('after', new CreatedDateFilter('after')),
             ])

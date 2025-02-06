@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('height');
             $table->integer('width');
             $table->integer('depth');
+            $table->integer('length');
             $table->foreignId('group_id')->constrained();
             $table->timestamps();
             $table->softDeletes();

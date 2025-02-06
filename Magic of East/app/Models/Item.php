@@ -17,6 +17,7 @@ class Item extends Model
         'height',
         'width',
         'depth',
+        'length',
         'group_id',
     ];
 

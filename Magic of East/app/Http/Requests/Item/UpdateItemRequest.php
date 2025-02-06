@@ -26,6 +26,7 @@ class UpdateItemRequest extends FormRequest
             'height' => 'numeric|gt:0',
             'width' => 'numeric|gt:0',
             'depth' => 'numeric|gt:0',
+            'length' => 'numeric|gt:0',
             'group_id' => 'exists:groups,id'
         ];
     }

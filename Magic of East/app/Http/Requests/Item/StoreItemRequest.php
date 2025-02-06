@@ -26,6 +26,7 @@ class StoreItemRequest extends FormRequest
             'height' => 'required|numeric|gt:0',
             'width' => 'required|numeric|gt:0',
             'depth' => 'required|numeric|gt:0',
+            'length' => 'required|numeric|gt:0',
             'group_id' => 'required|exists:groups,id'
         ];
     }
