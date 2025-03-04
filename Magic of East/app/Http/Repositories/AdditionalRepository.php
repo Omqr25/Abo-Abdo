@@ -22,7 +22,7 @@ class AdditionalRepository extends BaseRepository implements AdditionalRepositor
         $month = $date->format('m');
         $year = $date->format('Y');
         $total_additional = total_additional::where('employee_id', $id)->whereMonth('created_at', $month)->whereYear('created_at', $year)->first();
-        $details = Additional::where('total_additional_id', $total_additional->id);
+        $details = Additional::where('total_additional_id', $total_additional->id)->get();
         $type_1 = $details->where('type', 1)
             ->sum('amount');
         $type_2 = $details->where('type', 2)
@@ -41,15 +41,17 @@ class AdditionalRepository extends BaseRepository implements AdditionalRepositor
         $t = total_additional::where('employee_id', $data['employee_id'])->orderBy('created_at', 'desc') // or use the specific timestamp column you are using  
             ->first();
         $old_total = $t->total;
+        $add = $data['amount'];
+        $add = (-1) * ($data['type'] == 2);
         $t->update([
-            'total' => $old_total + $data['amount']
+            'total' => $old_total + $add
         ]);
         $expense = Expense::where('type', 4)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->first();
         $expense->update([
-            'total' => $expense->total + $data['amount']
+            'total' => $expense->total + $add
         ]);
         return Additional::create([
-            'amount' => abs($data['amount']),
+            'amount' => $data['amount'],
             'total_additional_id' => $t->id,
             'type' => $data['type']
         ]);
