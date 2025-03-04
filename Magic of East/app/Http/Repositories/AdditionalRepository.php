@@ -42,7 +42,9 @@ class AdditionalRepository extends BaseRepository implements AdditionalRepositor
             ->first();
         $old_total = $t->total;
         $add = $data['amount'];
-        $add = (-1) * ($data['type'] == 2);
+        if ($data['type'] == 2) {
+            $add *= (-1);
+        }
         $t->update([
             'total' => $old_total + $add
         ]);
