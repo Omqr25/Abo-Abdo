@@ -22,6 +22,7 @@ class ItemFactory extends Factory
             'height'   => fake()->randomNumber(),
             'width'    => fake()->randomNumber(),
             'depth'    => fake()->randomNumber(),
+            'length'   => fake()->randomNumber(),
             'group_id' => Group::all()->random()->id,
         ];
     }

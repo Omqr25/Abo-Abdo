@@ -31,7 +31,7 @@ class AdditionalRepository extends BaseRepository implements AdditionalRepositor
             'total' => $total_additional->total,
             'total_rewards' => $type_1,
             'total_deductions' => $type_2,
-            'details' => Additional::where('total_additional_id', $total_additional->id)->select('id', DB::raw("CASE WHEN type = 1 THEN 'reward' WHEN type = 2 THEN 'deduction' END as type"), 'amount')->get()
+            'details' => Additional::where('total_additional_id', $total_additional->id)->select('id', DB::raw("CASE WHEN type = 1 THEN 'reward' WHEN type = 2 THEN 'deduction' END as type"), 'amount', DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"))->get()
         ];
         return $data;
     }
