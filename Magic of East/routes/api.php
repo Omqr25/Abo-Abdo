@@ -11,6 +11,7 @@ use App\Http\Controllers\API\ItemController;
 use App\Http\Controllers\API\MediaController;
 use App\Http\Controllers\API\ReportsController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\TotalAdditional;
 use App\Http\Controllers\Auth\AuthController;
 use App\Models\Additional;
 use Illuminate\Http\Request;
@@ -97,6 +98,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::controller(AdditionalController::class)->prefix('additionals')->group(function () {
         Route::get('showdetails/{id}/{date}', 'showAdditionals');
+    });
+
+    Route::controller(TotalAdditional::class)->prefix('totaladditionals')->group(function () {
+        Route::delete('/{id}', 'destroy');
     });
 
     Route::apiResources([
