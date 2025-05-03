@@ -13,6 +13,7 @@ use App\Http\Controllers\API\ReportsController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\TotalAdditional;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\API\SettingsController;
 use App\Models\Additional;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -110,6 +111,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'expenses' => ExpenseController::class,
         'employees' => EmployeeController::class,
         'users' => UserController::class,
-        'additionals' => AdditionalController::class
+        'additionals' => AdditionalController::class,
+        'settings' => SettingsController::class
     ]);
 });

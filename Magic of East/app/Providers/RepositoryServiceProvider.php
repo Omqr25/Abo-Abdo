@@ -16,11 +16,13 @@ use App\Http\Interfaces\EmployeeRepositoryInterface;
 use App\Http\Interfaces\ExpenseRepositoryInterface;
 use App\Http\Repositories\CustomerRepository;
 use App\Http\Interfaces\InvoiceRepositoryInterface;
+use App\Http\Interfaces\SettingsRepositoryInterface;
 use App\Http\Repositories\InvoiceRepository;
 use App\Http\Interfaces\UserRepositoryInterface;
 use App\Http\Repositories\AdditionalRepository;
 use App\Http\Repositories\EmployeeRepository;
 use App\Http\Repositories\ExpenseRepository;
+use App\Http\Repositories\SettingsRepository;
 use App\Http\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -41,6 +43,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(EmployeeRepositoryInterface::class, EmployeeRepository::class);
         $this->app->bind(ExpenseRepositoryInterface::class, ExpenseRepository::class);
         $this->app->bind(AdditionalRepositoryInterface::class, AdditionalRepository::class);
+        $this->app->bind(SettingsRepositoryInterface::class, SettingsRepository::class);
     }
 
     /**
