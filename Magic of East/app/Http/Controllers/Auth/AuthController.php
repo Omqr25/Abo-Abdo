@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Interfaces\UserRepositoryInterface;
+use App\Http\Requests\Auth\ForgetPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
@@ -13,10 +15,12 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     use ApiResponse;
+    private $userRepository;
 
-    public function __construct()
+    public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->middleware('auth:sanctum', ['only' => 'logout']);
+        $this->userRepository = $userRepository;
     }
 
     public function register(RegisterRequest $request)
@@ -53,6 +57,17 @@ class AuthController extends Controller
         }
     }
 
+    public function ForgotPassword(ForgetPasswordRequest $request)
+    {
+        try{
+            $validated = $request->validated();
+            $data = $this->userRepository->ForgotPassword($validated);
+            return $this->SuccessOne($data, null, 'code sent successfully');
+        }catch (\Throwable $th){
+            return $this->Error(null, $th->getMessage());
+        }
+
+    }
     public function logout()
     {
         Auth::user()->tokens()->delete();
