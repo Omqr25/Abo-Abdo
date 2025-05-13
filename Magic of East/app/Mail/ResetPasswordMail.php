@@ -15,9 +15,7 @@ class ResetPasswordMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(private string $code)
-    {
-    }
+    public function __construct(private string $code) {}
 
     /**
      * Get the message envelope.
@@ -38,7 +36,7 @@ class ResetPasswordMail extends Mailable
             view: 'emails.send-code-reset-password',
             with: [
                 'title' => 'Verfiy Code',
-                'body' => `hi this is your Verfy code  $this->code`,
+                'body' => "hi this is your Verify code  $this->code",
             ],
         );
     }

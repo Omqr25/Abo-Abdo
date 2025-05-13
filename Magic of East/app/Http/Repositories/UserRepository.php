@@ -26,7 +26,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
 
         DB::table('verify_codes')->where('email', $data['email'])->delete();
-        $code_v = mt_rand(10000, 99999);        
+        $code_v = mt_rand(10000, 99999);
 
 
         DB::table('verify_codes')->insert([
@@ -35,12 +35,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         ]);
 
-        dump($code_v);
 
         // Send email to user
         Mail::to($data['email'])->send(new ResetPasswordMail($code_v));
-        
-        dump('hiiiii');
+
 
 
         return $user;

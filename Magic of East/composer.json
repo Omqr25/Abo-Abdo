@@ -13,6 +13,7 @@
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "opcodesio/log-viewer": "^3.17",
         "propaganistas/laravel-phone": "^5.3",
         "spatie/laravel-permission": "^6.9",
         "spatie/laravel-query-builder": "^6.2"
