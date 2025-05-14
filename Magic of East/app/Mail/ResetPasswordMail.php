@@ -35,8 +35,7 @@ class ResetPasswordMail extends Mailable
         return new Content(
             view: 'emails.send-code-reset-password',
             with: [
-                'title' => 'Verfiy Code',
-                'body' => "hi this is your Verify code  $this->code",
+                'code' => $this->code,
             ],
         );
     }
