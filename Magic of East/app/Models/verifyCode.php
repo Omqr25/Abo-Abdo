@@ -10,6 +10,8 @@ class verifyCode extends Model
     use HasFactory;
     protected $fillable = [
         'email',
-        'code'
+        'code',
+        'ip',
+        'checked'
     ];
 }

@@ -23,7 +23,9 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
-    Route::post('ForgotPassword','ForgotPassword');
+    Route::get('ForgotPassword', 'ForgotPassword')->middleware('auth:sanctum');
+    Route::post('CheckCode', 'CheckCode')->middleware('auth:sanctum');
+    Route::post('ChangePassword', 'ChangePassword')->middleware('auth:sanctum');
 });
 
 Route::get('/', function () {
